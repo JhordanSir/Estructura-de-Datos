@@ -1,32 +1,17 @@
-#ifndef MY_TRIE_HPP
-#define MY_TRIE_HPP
+#ifndef MI_TRIE_HPP
+#define MI_TRIE_HPP
 
 #include <iostream>
-#include <string>
+#include <vector>
+#include <fstream>
 using namespace std;
-#define TAMAÑO_ALFABETO 26
+
+typedef struct NodoTrie NodoTrie;
 
 struct NodoTrie {
-    NodoTrie* hijos[TAMAÑO_ALFABETO];
-    bool es_hoja;
-
-    NodoTrie() {
-        es_hoja = false;
-        for (int i = 0; i < TAMAÑO_ALFABETO; i++) {
-            hijos[i] = nullptr;
-        }
-    }
+    char dato;  // Caracter que representa el nodo
+    vector<NodoTrie*> hijos;  // Lista de nodos hijos
+    bool es_hoja;  // Indica si el nodo es una hoja (final de una palabra)
 };
 
-class Trie {
-public:
-    NodoTrie* raiz;
-
-    Trie();  // Constructor
-    void insertar(const std::string& palabra);  // Método para insertar una palabra
-    bool buscar(const std::string& palabra);  // Método para buscar una palabra
-    void imprimirTrie();  // Método para imprimir el Trie
-    void imprimirTrieAux(NodoTrie* nodo, string prefijo);  // Método auxiliar para imprimir el Trie
-};
-
-#endif // MY_TRIE_HPP
+#endif // MI_TRIE_HPP

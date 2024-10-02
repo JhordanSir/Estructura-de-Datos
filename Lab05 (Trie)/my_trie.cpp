@@ -1,68 +1,99 @@
 #include "my_trie.hpp"
 
-// Constructor del Trie
-Trie::Trie() {
-    raiz = new NodoTrie();
+// Función que crea un nuevo nodo en el Trie
+NodoTrie* crear_nodo_trie(char dato) {
+    NodoTrie* nodo = (NodoTrie*) calloc(1, sizeof(NodoTrie));
+    nodo->dato = dato;
+    nodo->es_hoja = false;
+    return nodo;
 }
 
-// Método para insertar una palabra en el Trie
-void Trie::insertar(const std::string& palabra) {
-    NodoTrie* actual = raiz;
-
-    for (char ch : palabra) {
-        // Convertir a minúscula
-        ch = tolower(ch);
-
-        // Verificar si es un carácter válido
-        if (ch < 'a' || ch > 'z') {
-            continue;  // Ignorar caracteres no válidos
-        }
-
-        int indice = ch - 'a';  // Obtener el índice correspondiente
-        if (actual->hijos[indice] == nullptr) {
-            actual->hijos[indice] = new NodoTrie();  // Crear nuevo nodo si no existe
-        }
-        actual = actual->hijos[indice];  // Avanzar al siguiente nodo
+// Función para liberar la memoria del Trie
+void liberar_trie(NodoTrie* &nodo) {
+    if (nodo == nullptr) {
+        return;
     }
-    actual->es_hoja = true;  // Marcar el final de la palabra
+    for (int i = 0; i < nodo->hijos.size(); i++) {
+        liberar_trie(nodo->hijos[i]);
+    }
+    free(nodo);
+    nodo = nullptr;
 }
 
-// Método para buscar una palabra en el Trie
-bool Trie::buscar(const std::string& palabra) {
-    NodoTrie* actual = raiz;
-
-    for (char ch : palabra) {
-        // Convertir a minúscula
-        ch = tolower(ch);
-
-        // Asegurarse de que solo se manejan letras del alfabeto
-        if (ch < 'a' || ch > 'z') {
-            return false;  // Si se encuentra un carácter inválido, la palabra no está en el Trie
-        }
-
-        int indice = ch - 'a';  // Obtener el índice correspondiente
-        if (actual->hijos[indice] == nullptr) {
-            return false;  // Si no hay nodo, la palabra no está en el Trie
-        }
-        actual = actual->hijos[indice];  // Avanzar al siguiente nodo
+// Función para buscar una palabra en el Trie
+bool buscar(NodoTrie* nodo, string palabra) {
+    if (nodo == nullptr) {
+        return false;
     }
-
-    return actual->es_hoja;  // Verificar si es una palabra completa
+    NodoTrie* temp = nodo;
+    for (int i = 0; i < palabra.size(); i++) {
+        bool encontrado = false;
+        for (int j = 0; j < temp->hijos.size(); j++) {
+            if (temp->hijos[j]->dato == palabra[i]) {
+                temp = temp->hijos[j];
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado) {
+            return false;
+        }
+    }
+    return temp->es_hoja;
 }
 
-// Método auxiliar para imprimir el Trie (para depuración)
-void Trie::imprimirTrieAux(NodoTrie* nodo, string prefijo) {
-    if (nodo->es_hoja) {
-        cout << prefijo << endl;  // Imprimir la palabra si es una hoja
+// Función para insertar una palabra en el Trie
+NodoTrie* insertar_trie(NodoTrie* raiz, string palabra) {
+    if (raiz == nullptr) {
+        raiz = crear_nodo_trie(palabra[0]);
     }
-    for (int i = 0; i < TAMAÑO_ALFABETO; i++) {
-        if (nodo->hijos[i] != nullptr) {
-            imprimirTrieAux(nodo->hijos[i], prefijo + char('a' + i));  // Llamada recursiva para imprimir los hijos
+    if (buscar(raiz, palabra)) {
+        // La palabra ya existe en el Trie
+        return raiz;
+    }
+    NodoTrie* temp = raiz;
+    for (int i = 0; i < palabra.size(); i++) {
+        bool encontrado = false;
+        for (int j = 0; j < temp->hijos.size(); j++) {
+            if (temp->hijos[j]->dato == palabra[i]) {
+                temp = temp->hijos[j];
+                encontrado = true;
+                break;
+            }
         }
+        if (!encontrado) {
+            NodoTrie* nuevo_nodo = crear_nodo_trie(palabra[i]);
+            temp->hijos.push_back(nuevo_nodo);
+            temp = nuevo_nodo;
+        }
+    }
+    temp->es_hoja = true;
+    return raiz;
+}
+
+// Función para imprimir los nodos del Trie
+void imprimir_trie(NodoTrie* raiz) {
+    if (!raiz)
+        return;
+    NodoTrie* temp = raiz;
+    printf("%c -> ", temp->dato);
+    for (int i = 0; i < temp->hijos.size(); i++) {
+        imprimir_trie(temp->hijos[i]);
     }
 }
 
-// Método para imprimir el Trie
-void Trie::imprimirTrie() {
-    imprimirTrieAux(raiz, "");  // Iniciar la impresión desde la raíz
+// Función para leer un archivo de texto e insertar sus palabras en el Trie
+void leerTXT(NodoTrie* &nodo, string archivo) {
+    ifstream file(archivo); // Asegúrate de especificar la ruta correcta
+
+    if (!file.is_open()) {
+        cerr << "No se pudo abrir el archivo." << endl;  // Manejo de errores si no se puede abrir el archivo
+    }
+
+    string palabra;
+    while (getline(file, palabra)) {  // Leer el archivo línea por línea
+        nodo = insertar_trie(nodo, palabra);  // Insertar cada palabra en el Trie
+    }
+
+    file.close();
 }
