@@ -10,7 +10,7 @@ NodoTrie* crear_nodo_trie(char dato) {
 
 // Función para liberar la memoria del Trie
 void liberar_trie(NodoTrie* &nodo) {
-    
+
     if (nodo == nullptr) {
         return;
     }
@@ -20,51 +20,35 @@ void liberar_trie(NodoTrie* &nodo) {
     free(nodo);
 }
 
+NodoTrie* encontrar_hijo(NodoTrie* nodo, char caracter) {
+    for (NodoTrie* hijo : nodo->hijos) {
+        if (hijo && hijo->dato == caracter) {
+            return hijo;
+        }
+    }
+    return nullptr;
+}
+
 // Función para buscar una palabra en el Trie
 bool buscar(NodoTrie* nodo, string palabra) {
-    if (nodo == nullptr) {
-        return false;
-    }
-    NodoTrie* temp = nodo;
-    for (int i = 0; i < palabra.size(); i++) {
-        bool encontrado = false;
-        for (int j = 0; j < temp->hijos.size(); j++) {
-            if (temp->hijos[j]->dato == palabra[i]) {
-                temp = temp->hijos[j];
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado) {
+    for (char c : palabra) {
+        nodo = encontrar_hijo(nodo, c);
+        if (nodo == nullptr) {
             return false;
         }
     }
-    return temp->es_hoja;
+    return nodo->es_hoja;
 }
 
 // Función para insertar una palabra en el Trie
 NodoTrie* insertar_trie(NodoTrie* raiz, string palabra) {
-    if (raiz == nullptr) {
-        raiz = crear_nodo_trie(palabra[0]);
-    }
-    if (buscar(raiz, palabra)) {
-        // La palabra ya existe en el Trie
-        return raiz;
-    }
     NodoTrie* temp = raiz;
-    for (int i = 0; i < palabra.size(); i++) {
-        bool encontrado = false;
-        for (int j = 0; j < temp->hijos.size(); j++) {
-            if (temp->hijos[j]->dato == palabra[i]) {
-                temp = temp->hijos[j];
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado) {
-            NodoTrie* nuevo_nodo = crear_nodo_trie(palabra[i]);
-            temp->hijos.push_back(nuevo_nodo);
-            temp = nuevo_nodo;
+    for (char c : palabra) {
+        if (encontrar_hijo(temp, c) == nullptr) {
+            temp->hijos.push_back(crear_nodo_trie(c));
+            temp = temp->hijos.back();
+        } else {
+            temp = encontrar_hijo(temp, c);
         }
     }
     temp->es_hoja = true;
