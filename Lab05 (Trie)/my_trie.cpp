@@ -10,6 +10,7 @@ NodoTrie* crear_nodo_trie(char dato) {
 
 // Función para liberar la memoria del Trie
 void liberar_trie(NodoTrie* &nodo) {
+    
     if (nodo == nullptr) {
         return;
     }
@@ -17,7 +18,6 @@ void liberar_trie(NodoTrie* &nodo) {
         liberar_trie(nodo->hijos[i]);
     }
     free(nodo);
-    nodo = nullptr;
 }
 
 // Función para buscar una palabra en el Trie
