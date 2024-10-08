@@ -81,29 +81,3 @@ void leerTXT(NodoTrie* &nodo, string archivo) {
 
     file.close();
 }
-
-bool eliminar_palabra(NodoTrie* nodo, string palabra) {
-    if (nodo == nullptr) {
-        return false; // La palabra no existe
-    }
-
-    if (palabra.empty()) {
-        // Si llegamos al final de la palabra, marcamos el nodo como no hoja
-        nodo->es_hoja = false;
-        // Eliminamos el nodo si no tiene hijos y no es una hoja de otra palabra
-        return nodo->hijos.empty() && !nodo->es_hoja;
-    }
-
-    char c = palabra[0];
-    NodoTrie* hijo = encontrar_hijo(nodo, c);
-    if (hijo) {
-        bool eliminado = eliminar_palabra(hijo, palabra.substr(1));
-        if (eliminado && hijo->hijos.empty() && !hijo->es_hoja) {
-            // Si el hijo no tiene hijos y no es hoja, lo eliminamos
-            nodo->hijos.erase(remove(nodo->hijos.begin(), nodo->hijos.end(), hijo), nodo->hijos.end());
-            delete hijo;
-        }
-        return eliminado;
-    }
-    return false; // La palabra no existe
-}

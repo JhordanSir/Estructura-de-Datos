@@ -7,7 +7,7 @@ int main() {
     cout<<"Se terminó de leer el archivo"<<endl;
     cout<<buscar(trie, "Zu-zu")<<endl;
     cout<<buscar(trie, "Atun")<<endl;
-    //imprimir_trie(trie); // Imprimir los nodos del Trie
+
     cout<<"Eliminando noditos..."<<endl;
     liberar_trie(trie);
     return 0;
