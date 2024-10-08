@@ -29,16 +29,58 @@ NodoTrie* encontrar_hijo(NodoTrie* nodo, char caracter) {
     return nullptr;
 }
 
-// Función para buscar una palabra en el Trie
-bool buscar(NodoTrie* nodo, string palabra) {
-    for (char c : palabra) {
-        nodo = encontrar_hijo(nodo, c);
-        if (nodo == nullptr) {
-            return false;
+void buscar_palabras(NodoTrie* nodo, string prefijo, vector<string>& resultados, string actual) {
+    if (nodo->es_hoja) {
+        resultados.push_back(prefijo + actual);
+    }
+    for (NodoTrie* hijo : nodo->hijos) {
+        if (hijo) {
+            buscar_palabras(hijo, prefijo, resultados, actual + hijo->dato);
         }
     }
-    return nodo->es_hoja;
 }
+
+vector<string> buscar_por_prefijo(NodoTrie* raiz, string prefijo) {
+    NodoTrie* nodo = raiz;
+    for (char c : prefijo) {
+        nodo = encontrar_hijo(nodo, c);
+        if (nodo == nullptr) {
+            return {};
+        }
+    }
+    vector<string> resultados;
+    buscar_palabras(nodo, prefijo, resultados, "");
+    return resultados;
+}
+
+bool eliminar_palabra(NodoTrie* &nodo, const string &palabra, int profundidad = 0) {
+    if (!nodo) return false;
+
+    if (profundidad == palabra.size()) {
+        if (!nodo->es_hoja) return false; // La palabra no existe
+        nodo->es_hoja = false; // Marcar el final de la palabra como no hoja
+
+        return nodo->hijos.empty();
+    }
+
+    NodoTrie* hijo = encontrar_hijo(nodo, palabra[profundidad]);
+    if (!hijo) return false;
+
+    bool debe_eliminarse = eliminar_palabra(hijo, palabra, profundidad + 1);
+
+    // Si el hijo debe eliminarse, eliminarlo del vector de hijos
+    if (debe_eliminarse) {
+        auto it = remove(nodo->hijos.begin(), nodo->hijos.end(), hijo);
+        nodo->hijos.erase(it, nodo->hijos.end());
+        free(hijo); // Liberar la memoria del nodo hijo
+
+        // Si el nodo actual no es hoja y no tiene más hijos, debe eliminarse
+        return !nodo->es_hoja && nodo->hijos.empty();
+    }
+
+    return false;
+}
+
 
 // Función para insertar una palabra en el Trie
 NodoTrie* insertar_trie(NodoTrie* raiz, string palabra) {

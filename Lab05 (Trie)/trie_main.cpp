@@ -5,9 +5,20 @@ int main() {
     cout<<"Leyendo archivo txt..."<<endl;
     leerTXT(trie, "words.txt");  // Leer palabras desde el archivo y construir el Trie
     cout<<"Se terminó de leer el archivo"<<endl;
-    cout<<buscar(trie, "Zu-zu")<<endl;
-    cout<<buscar(trie, "Atun")<<endl;
 
+    vector<string> resultados = buscar_por_prefijo(trie, "acc");
+    for (string palabra : resultados) {
+        cout << palabra << endl;
+    }
+    cout << endl;
+    eliminar_palabra(trie, "acc.");
+
+    resultados = buscar_por_prefijo(trie, "acc");
+    for (string palabra : resultados) {
+        cout << palabra << endl;
+    }
+
+    cout << endl;
     cout<<"Eliminando noditos..."<<endl;
     liberar_trie(trie);
     return 0;
