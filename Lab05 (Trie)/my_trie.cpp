@@ -2,15 +2,14 @@
 
 // Función que crea un nuevo nodo en el Trie
 NodoTrie* crear_nodo_trie(char dato) {
-    NodoTrie* nodo = (NodoTrie*) calloc(1, sizeof(NodoTrie));
-    nodo->dato = dato;
-    nodo->es_hoja = false;
+    NodoTrie* nodo = (NodoTrie*) calloc(1, sizeof(NodoTrie)); //calloc es para separar espacios de memoria e inicializarlo en 0
+    nodo->dato = dato; // asignamos el dato al atributo dato de la raiz
+    nodo->es_hoja = false; // 
     return nodo;
 }
 
 // Función para liberar la memoria del Trie
 void liberar_trie(NodoTrie* &nodo) {
-
     if (nodo == nullptr) {
         return;
     }
@@ -31,7 +30,7 @@ NodoTrie* encontrar_hijo(NodoTrie* nodo, char caracter) {
 
 void buscar_palabras(NodoTrie* nodo, string prefijo, vector<string>& resultados, string actual) {
     if (nodo->es_hoja) {
-        resultados.push_back(prefijo + actual);
+        resultados.emplace_back(prefijo + actual);
     }
     for (NodoTrie* hijo : nodo->hijos) {
         if (hijo) {
@@ -59,8 +58,7 @@ bool eliminar_palabra(NodoTrie* &nodo, const string &palabra, int profundidad = 
     if (profundidad == palabra.size()) {
         if (!nodo->es_hoja) return false; // La palabra no existe
         nodo->es_hoja = false; // Marcar el final de la palabra como no hoja
-
-        return nodo->hijos.empty();
+        return nodo->hijos.empty(); //Si el nodo actual no tiene hijos, retornamos true para indicar que el nodo debe eliminarse
     }
 
     NodoTrie* hijo = encontrar_hijo(nodo, palabra[profundidad]);
@@ -81,13 +79,12 @@ bool eliminar_palabra(NodoTrie* &nodo, const string &palabra, int profundidad = 
     return false;
 }
 
-
 // Función para insertar una palabra en el Trie
 NodoTrie* insertar_trie(NodoTrie* raiz, string palabra) {
     NodoTrie* temp = raiz;
     for (char c : palabra) {
         if (encontrar_hijo(temp, c) == nullptr) {
-            temp->hijos.push_back(crear_nodo_trie(c));
+            temp->hijos.emplace_back(crear_nodo_trie(c));
             temp = temp->hijos.back();
         } else {
             temp = encontrar_hijo(temp, c);
@@ -98,7 +95,7 @@ NodoTrie* insertar_trie(NodoTrie* raiz, string palabra) {
 }
 
 // Función para imprimir los nodos del Trie
-void imprimir_trie(NodoTrie* raiz) {
+void imprimir_trie(NodoTrie* raiz) { 
     if (!raiz)
         return;
     NodoTrie* temp = raiz;
