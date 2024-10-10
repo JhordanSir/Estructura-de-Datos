@@ -42,7 +42,11 @@ public:
     int add(int value); // Agrega un valor al árbol
     void print(const std::string& print_type) const; // Imprime el árbol según el tipo de recorrido
     void free(); // Libera la memoria
-
+    int findMin();
+    bool isBalanced(Node* N);
+    int getBalance(Node* N);
+    bool isBalanced();
+    int height(Node* N);
 private:
     void printInOrder(Node* node) const; // Imprime el árbol en orden
     void printPreOrder(Node* node) const; // Imprime el árbol en preorden
