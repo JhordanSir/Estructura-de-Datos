@@ -1,7 +1,6 @@
-#_REPOSITORIO PARA BTREES_
+# REPOSITORIO PARA B_TREES
 
-##INTEGRANTES
-- ChatGPT
+## INTEGRANTES
 - Jorge Ortiz
 - Jhordan Huamani
 - Miguel Flores
