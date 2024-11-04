@@ -1,12 +1,34 @@
 #include "b_tree.cpp"
+#include <chrono>
+
 
 int main() {
-    int max_claves = 4;  // Cambia este valor para probar con diferentes números de claves
-    NodoArbolB *raiz = nullptr;
+    ofstream archivoLectura("tiempos_leectura.txt");
+    ofstream archivoBusqueda("tiempos_busqueda.txt");
+    for (int i=1;i<=5;i++){//cantida de keys
+        double lectura=0;
+        double busqueda=0;
+        for (int j=1;j<=5;j++){//promedios
+            int max_claves=i+3;
+            NodoArbolB *raiz = nullptr;
+            auto inicio = chrono::high_resolution_clock::now();
 
-    cargarCSVEnArbolB(&raiz, "Pruebas.csv", 10, max_claves);
-    cout << "Estructura del árbol B:" << endl;
-    imprimirArbolB(raiz, 0);
+            cargarCSVEnArbolB(&raiz, "random_numbers_1000000.csv", 10, max_claves);
+    
+            auto fin = chrono::high_resolution_clock::now();
+            chrono::duration<double> duracion = fin - inicio;
+            lectura+=duracion.count();
 
+            auto inicio2 = chrono::high_resolution_clock::now();
+
+            cout<<buscarClave(raiz, 0.9218232253882106)<<endl;
+            
+            auto fin2 = chrono::high_resolution_clock::now();
+            chrono::duration<double> duracion2 = fin2 - inicio2;
+            busqueda+=duracion2.count();
+        }
+        archivoLectura<<i+3<<" "<<lectura/5<<endl;
+        archivoBusqueda<<i+3<<" "<<busqueda/5<<endl;
+    }
     return 0;
 }

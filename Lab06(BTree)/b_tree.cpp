@@ -152,3 +152,22 @@ void imprimirArbolB(NodoArbolB *nodo, int nivel) {
         imprimirArbolB(nodo->hijos[i], nivel + 1);
     }
 }
+
+bool buscarClave(NodoArbolB *nodo, double clave) {
+    if (nodo == nullptr) return false;
+    double temp=redondearADecimales(clave,10);
+    int i = 0;
+    while (i < nodo->num_claves && nodo->claves[i] < temp) {
+        i++;
+    }
+
+    if (i < nodo->num_claves && nodo->claves[i] == temp) {
+        return true;
+    }
+
+    if (nodo->hijos[0] == nullptr) {
+        return false;
+    }
+
+    return buscarClave(nodo->hijos[i], temp);
+}
