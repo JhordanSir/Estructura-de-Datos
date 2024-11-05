@@ -171,3 +171,109 @@ bool buscarClave(NodoArbolB *nodo, double clave) {
 
     return buscarClave(nodo->hijos[i], temp);
 }
+
+void eliminarClave(NodoArbolB *nodo, double clave, int max_claves) {
+    if (nodo == nullptr) {
+        cout << "Nodo nulo en eliminarClave." << endl;
+        return;
+    }
+
+    int i = nodo->num_claves - 1;
+    while (i >= 0 && nodo->claves[i] > clave) {
+        i--;
+    }
+
+    if (i >= 0 && nodo->claves[i] == clave) {
+        if (nodo->hijos[0] == nullptr) {  // Si es una hoja
+            for (int j = i; j < nodo->num_claves - 1; j++) {
+                nodo->claves[j] = nodo->claves[j + 1];
+            }
+            nodo->num_claves--;
+            return;
+        }
+
+        if (nodo->hijos[i]->num_claves >= (max_claves - 1) / 2) {
+            double claveReemplazo = nodo->hijos[i]->claves[nodo->hijos[i]->num_claves - 1];
+            eliminarClave(nodo->hijos[i], claveReemplazo, max_claves);
+            nodo->claves[i] = claveReemplazo;
+            return;
+        }
+
+        if (nodo->hijos[i + 1]->num_claves >= (max_claves - 1) / 2) {
+            double claveReemplazo = nodo->hijos[i + 1]->claves[0];
+            eliminarClave(nodo->hijos[i + 1], claveReemplazo, max_claves);
+            nodo->claves[i] = claveReemplazo;
+            return;
+        }
+
+        // Fusionar nodos
+        nodo->hijos[i]->claves[nodo->hijos[i]->num_claves] = nodo->claves[i];
+        nodo->hijos[i]->num_claves++;
+        for (int j = 0; j < nodo->hijos[i + 1]->num_claves; j++) {
+            nodo->hijos[i]->claves[nodo->hijos[i]->num_claves + j] = nodo->hijos[i + 1]->claves[j];
+        }
+        nodo->hijos[i]->num_claves += nodo->hijos[i + 1]->num_claves;
+        for (int j = i; j < nodo->num_claves - 1; j++) {
+            nodo->claves[j] = nodo->claves[j + 1];
+        }
+        nodo->num_claves--;
+        delete nodo->hijos[i + 1];
+        nodo->hijos[i + 1] = nullptr;
+        return;
+    }
+
+    if (nodo->hijos[0] != nullptr) {
+        if (nodo->hijos[i]->num_claves == (max_claves - 1) / 2) {
+            if (i > 0 && nodo->hijos[i - 1]->num_claves > (max_claves - 1) / 2) {
+                double clavePrestada = nodo->hijos[i - 1]->claves[nodo->hijos[i - 1]->num_claves - 1];
+                nodo->hijos[i]->claves[nodo->hijos[i]->num_claves] = clavePrestada;
+                nodo->hijos[i]->num_claves++;
+                nodo->hijos[i - 1]->num_claves--;
+                nodo->claves[i - 1] = clavePrestada;
+                eliminarClave(nodo->hijos[i], clave, max_claves);
+                return;
+            }
+
+            if (i < nodo->num_claves && nodo->hijos[i + 1]->num_claves > (max_claves - 1) / 2) {
+                double clavePrestada = nodo->hijos[i + 1]->claves[0];
+                nodo->hijos[i]->claves[nodo->hijos[i]->num_claves] = clavePrestada;
+                nodo->hijos[i]->num_claves++;
+                nodo->hijos[i + 1]->num_claves--;
+                nodo->claves[i] = clavePrestada;
+                eliminarClave(nodo->hijos[i], clave, max_claves);
+                return;
+            }
+
+            // Fusionar nodos
+            if (i > 0) {
+                nodo->hijos[i - 1]->claves[nodo->hijos[i - 1]->num_claves] = nodo->claves[i - 1];
+                nodo->hijos[i - 1]->num_claves++;
+                for (int j = 0; j < nodo->hijos[i]->num_claves; j++) {
+                    nodo->hijos[i - 1]->claves[nodo->hijos[i - 1]->num_claves + j] = nodo->hijos[i]->claves[j];
+                }
+                nodo->hijos[i - 1]->num_claves += nodo->hijos[i]->num_claves;
+                for (int j = i - 1; j < nodo->num_claves - 1; j++) {
+                    nodo->claves[j] = nodo->claves[j + 1];
+                }
+                nodo->num_claves--;
+                delete nodo->hijos[i];
+                nodo->hijos[i] = nullptr;
+            } else {
+                nodo->hijos[i]->claves[nodo->hijos[i]->num_claves] = nodo->claves[i];
+                nodo->hijos[i]->num_claves++;
+                for (int j = 0; j < nodo->hijos[i + 1]->num_claves; j++) {
+                    nodo->hijos[i]->claves[nodo->hijos[i]->num_claves + j] = nodo->hijos[i + 1]->claves[j];
+                }
+                nodo->hijos[i]->num_claves += nodo->hijos[i + 1]->num_claves;
+                for (int j = i; j < nodo->num_claves - 1; j++) {
+                    nodo->claves[j] = nodo->claves[j + 1];
+                }
+                nodo->num_claves--;
+                delete nodo->hijos[i + 1];
+                nodo->hijos[i + 1] = nullptr;
+            }
+        }
+    }
+
+    eliminarClave(nodo->hijos[i], clave, max_claves);
+}
