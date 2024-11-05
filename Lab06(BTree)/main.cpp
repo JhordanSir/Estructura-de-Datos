@@ -5,16 +5,18 @@
 int main() {
     ofstream archivoLectura("tiempos_lectura.txt");
     ofstream archivoBusqueda("tiempos_busqueda.txt");
-    for (int i=1;i<=5;i++){//cantida de keys
+    for (int i=2;i<=10;i++){//cantida de keys
         double lectura=0;
         double busqueda=0;
-        archivoLectura<<i+3<<" ";
-        archivoBusqueda<<i+3<<" ";
-        for (int j=1;j<=5;j++){//promedios
-            int max_claves=i+3;
-            NodoArbolB *raiz = nullptr;
-            auto inicio = chrono::high_resolution_clock::now();
+        archivoLectura<<i<<" ";
+        archivoBusqueda<<i<<" ";
+        for (int j=1;j<=20;j++){//promedios
 
+            int max_claves=i;
+            NodoArbolB *raiz = nullptr;
+
+            auto inicio = chrono::high_resolution_clock::now();
+            
             cargarCSVEnArbolB(&raiz, "random_numbers_1000000.csv", 10, max_claves);
 
             auto fin = chrono::high_resolution_clock::now();
@@ -31,8 +33,9 @@ int main() {
             archivoBusqueda<<duracion2.count()<<" ";
         }
 
-        archivoLectura<<lectura/5<<endl;
-        archivoBusqueda<<busqueda/5<<endl;
+        archivoLectura<<lectura/20<<endl;
+        archivoBusqueda<<busqueda/20<<endl;
     }
+    
     return 0;
 }
