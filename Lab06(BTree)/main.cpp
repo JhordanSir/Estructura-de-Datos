@@ -1,7 +1,6 @@
 #include "b_tree.cpp"
 #include <chrono>
 
-
 int main() {
     ofstream archivoLectura("tiempos_lectura.txt");
     ofstream archivoBusqueda("tiempos_busqueda.txt");
