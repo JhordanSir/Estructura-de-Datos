@@ -1,0 +1,3 @@
+#include "song.h"
+
+Song::Song(const QString &artistName, const QString &trackName, const QString &trackId, int popularity, int year, const QString &genre, float danceability, float energy, int key, float loudness, int mode, float speechiness, float acousticness, float instrumentalness, float liveness, float valence, float tempo, int durationMs, int timeSignature) : artistName(artistName), trackName(trackName), trackId(trackId), popularity(popularity), year(year), genre(genre), danceability(danceability), energy(energy), key(key), loudness(loudness), mode(mode), speechiness(speechiness), acousticness(acousticness), instrumentalness(instrumentalness), liveness(liveness), valence(valence), tempo(tempo), durationMs(durationMs), timeSignature(timeSignature) {}
