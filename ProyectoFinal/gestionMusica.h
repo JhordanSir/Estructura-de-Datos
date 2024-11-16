@@ -42,6 +42,7 @@ public:
           year(year), genre(genre), danceability(danceability), energy(energy), key(key), loudness(loudness),
           mode(mode), speechiness(speechiness), acousticness(acousticness), instrumentalness(instrumentalness),
           liveness(liveness), valence(valence), tempo(tempo), duration_ms(duration_ms), time_signature(time_signature) {}
+    ~Cancion();
     void imprimirDatos();
     void reproducirCancion();
 };
@@ -62,7 +63,7 @@ public:
     long long size=0;
 
     ListaCanciones() : head(nullptr) {}
-
+    
     void agregarCancion(Cancion cancion);
 
     void eliminarCancion(Node* nodo);
