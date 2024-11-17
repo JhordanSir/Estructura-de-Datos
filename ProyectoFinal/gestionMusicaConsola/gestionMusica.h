@@ -1,3 +1,5 @@
+#ifndef GESTIONMUSICA_h
+#define GESTIONMUSICA_h
 #include <iostream>
 #include <functional>
 #include <iomanip>
@@ -94,3 +96,5 @@ private:
 };
 
 void cargarCSV(const string& nombre_archivo, vector<Cancion>& playlist);
+
+#endif // GESTIONMUSICA_h

@@ -1,6 +1,6 @@
 #include "gestionMusica.cpp"
-#include <conio.h>
 #include <chrono>
+
 int main() {
     ListaCanciones playlist2;
     //===============================LECTURA DEL CSV=========================================================
