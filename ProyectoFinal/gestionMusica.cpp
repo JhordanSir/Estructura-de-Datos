@@ -1,8 +1,16 @@
 #include "gestionMusica.h"
 #include <random>
 
-Cancion::~Cancion(){
-
+ListaCanciones::~ListaCanciones() {
+    // Liberar memoria de cada nodo de la lista
+    Node* actual = head;
+    while (actual != nullptr) {
+        Node* siguiente = actual->next; // Guardar el siguiente nodo
+        delete actual;                  // Liberar el nodo actual
+        actual = siguiente;             // Avanzar al siguiente nodo
+    }
+    head = tail = nullptr;
+    size = 0; // Reiniciar el tamaño de la lista
 }
 
 void Cancion::imprimirDatos() { 
@@ -71,19 +79,22 @@ void cabecera(){
     << "|" << endl;
 }
 
-void ListaCanciones::imprimirLista() {
-    if (!head) {
+void imprimirNodeRecursivo(Node *playlist) {
+    if (!playlist) {
         cout << "La lista está vacía." << endl;
         return;
     }
-    cabecera();
+    playlist->cancion.imprimirDatos();
+    imprimirNodeRecursivo(playlist->next);
+}
 
-    Node* current = head;
-    while (current) {
-        current->cancion.imprimirDatos();
-        current = current->next;
+void imprimirNodeRecursivoReversa(Node *playlist) {
+    if (!playlist) {
+        cout << "La lista está vacía." << endl;
+        return;
     }
-    cout << endl << endl;
+    imprimirNodeRecursivoReversa(playlist->next);
+    playlist->cancion.imprimirDatos();
 }
 
 void ListaCanciones::eliminarCancion(Node* nodo) {
@@ -102,6 +113,7 @@ void ListaCanciones::eliminarCancion(Node* nodo) {
     }
 
     delete nodo;
+    size--;
 }
 //Busqeuda por id de canciones
 Node* ListaCanciones::buscarPorID(int id) {
@@ -178,70 +190,86 @@ void ListaCanciones::actualizarCancion(Node* nodo, int nuevoId, const string& nu
     nodo->cancion.time_signature = nuevoTimeSignature;
 }
 
-Node* ListaCanciones::split(Node* head) {
-    if (!head || !head->next) return nullptr; // Lista vacía o con un solo nodo
+void ListaCanciones::ordenarPorRadixSort(function<int(Cancion)> obtenerClave) {
+    if (!head || !head->next) return; // Lista vacía o con un solo elemento
 
-    Node* fast = head;
-    Node* slow = head;
+    int maxKey = obtenerMaxClave(obtenerClave); // Encontrar el valor máximo del atributo
+    int exp = 1; // Exponente inicial (unidades, decenas, etc.)
 
-    while (fast->next && fast->next->next) {
-        fast = fast->next->next;
-        slow = slow->next;
-    }
-
-    Node* temp = slow->next;
-    slow->next = nullptr; // Divide la lista
-    return temp;
-}
-
-Node* ListaCanciones::merge(Node* first, Node* second, function<bool(Cancion, Cancion)> compare) {
-    if (!first) return second;
-    if (!second) return first;
-
-    if (compare(first->cancion, second->cancion)) {
-        first->next = merge(first->next, second, compare);
-        if (first->next) { // Verifica si first->next no es nulo
-            first->next->prev = first;
-        }
-        first->prev = nullptr;
-        return first;
-    } else {
-        second->next = merge(first, second->next, compare);
-        if (second->next) { // Verifica si second->next no es nulo
-            second->next->prev = second;
-        }
-        second->prev = nullptr;
-        return second;
+    while (maxKey / exp > 0) {
+        realizarRadixSortPaso(obtenerClave, exp);
+        exp *= 10;
     }
 }
 
-Node* ListaCanciones::mergeSort(Node* head, function<bool(Cancion, Cancion)> compare) {
-    if (!head || !head->next) return head; // Si la lista tiene 0 o 1 nodo, ya está ordenada
+int ListaCanciones::obtenerMaxClave(function<int(Cancion)> obtenerClave) {
+    Node* actual = head;
+    int maxVal = obtenerClave(actual->cancion);
+    while (actual) {
+        maxVal = max(maxVal, obtenerClave(actual->cancion));
+        actual = actual->next;
+    }
+    return maxVal;
+}
 
-    Node* second = split(head); // Divide la lista en dos mitades
-    head = mergeSort(head, compare); // Ordena recursivamente la primera mitad
-    second = mergeSort(second, compare); // Ordena recursivamente la segunda mitad
+void ListaCanciones::realizarRadixSortPaso(function<int(Cancion)> obtenerClave, int exp) {
+    Node* buckets[10] = {nullptr}; // Lista de buckets para dígitos 0-9
+    Node* tails[10] = {nullptr};
 
-    return merge(head, second, compare); // Combina las mitades ordenadas
+    Node* actual = head;
+
+    // Distribuir los elementos en los buckets según el dígito actual
+    while (actual) {
+        int digit = (obtenerClave(actual->cancion) / exp) % 10;
+        if (!buckets[digit]) {
+            buckets[digit] = tails[digit] = actual;
+        } else {
+            tails[digit]->next = actual;
+            tails[digit] = actual;
+        }
+        actual = actual->next;
+    }
+
+    // Reconstruir la lista enlazada a partir de los buckets
+    head = nullptr;
+    Node* prevTail = nullptr;
+
+    for (int i = 0; i < 10; ++i) {
+        if (buckets[i]) {
+            if (!head) {
+                head = buckets[i];
+            } else {
+                prevTail->next = buckets[i];
+            }
+            prevTail = tails[i];
+        }
+    }
+
+    if (prevTail) prevTail->next = nullptr; // Terminar la lista
 }
 
 void ListaCanciones::ordenarPorPopularidad() {
-    head = mergeSort(head, [](Cancion a, Cancion b) {
-        return a.popularity < b.popularity;
-    });
-}
-
-void ListaCanciones::ordenarPorAnio() {
-    if (!head || !head->next) return; // Evita procesar si la lista tiene 0 o 1 nodo
-    head = mergeSort(head, [](Cancion a, Cancion b) {
-        return a.year < b.year; // Compara los años de las canciones
-    });
+    ordenarPorRadixSort([](Cancion a) { return a.popularity; });
 }
 
 void ListaCanciones::ordenarPorDuracion() {
-    head = mergeSort(head, [](Cancion a, Cancion b) {
-        return a.duration_ms < b.duration_ms;
-    });
+    ordenarPorRadixSort([](Cancion a) { return a.duration_ms; });
+}
+
+void ListaCanciones::ordenarPorAnio() {
+    ordenarPorRadixSort([](Cancion a) { return a.year; });
+}
+
+vector<Node*> ListaCanciones::ordenarporDeterminadoAnio(int year) {
+    vector<Node*> resultados;
+    Node* current = head;
+    while (current) {
+        if (current->cancion.year == year) {
+            resultados.push_back(current);
+        }
+        current = current->next;
+    }
+    return resultados;
 }
 
 void reproducirEspecifico(ListaCanciones &playlist){//implementar xd
