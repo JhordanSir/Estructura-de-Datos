@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <functional>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
 
@@ -211,6 +212,7 @@ void PlayList::realizarRadixSortPaso(function<int(const Cancion&)> obtenerClave,
 
 
 // Métodos de ordenación
+
 void PlayList::ordenarPorPopularidad() {
     ordenarPorRadixSort([](const Cancion& cancion) { return cancion.popularity; });
 }
@@ -221,6 +223,10 @@ void PlayList::ordenarPorDuracion() {
 
 void PlayList::ordenarPorAnio() {
     ordenarPorRadixSort([](const Cancion& cancion) { return cancion.year; });
+}
+
+void PlayList::ordenarPorID() {
+    ordenarPorRadixSort([](const Cancion& cancion) { return cancion.id; });
 }
 
 // Obtener canciones de un año específico
