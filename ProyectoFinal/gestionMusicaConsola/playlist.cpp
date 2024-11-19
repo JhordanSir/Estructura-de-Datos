@@ -126,33 +126,19 @@ void PlayList::cabecera(){
 void PlayList::imprimirCanciones(bool puntoInicio) {
     cabecera();
     Node* current = puntoInicio ? tail : head;
+    Node* stopNode = puntoInicio ? tail : head;
+    bool firstIteration = true;
+
     while (current) {
-        const Cancion& c = current->cancion;
-        cout << "|" << setw(5) << c.id
-             << "|" << setw(30) << c.artist_name
-             << "|" << setw(30) << c.track_name
-             << "|" << setw(30) << c.track_id
-             << "|" << setw(5) << c.popularity
-             << "|" << setw(5) << c.year
-             << "|" << setw(10) << c.genre
-             << "|" << setw(5) << c.danceability
-             << "|" << setw(5) << c.energy
-             << "|" << setw(5) << c.key
-             << "|" << setw(5) << c.loudness
-             << "|" << setw(5) << c.mode
-             << "|" << setw(5) << c.speechiness
-             << "|" << setw(5) << c.acousticness
-             << "|" << setw(5) << c.liveness
-             << "|" << setw(5) << c.instrumentalness
-             << "|" << setw(5) << c.valence
-             << "|" << setw(5) << c.tempo
-             << "|" << setw(5) << c.duration_ms
-             << "|" << setw(5) << c.time_signature
-             << "|" << endl;
+        Cancion c = current->cancion;
+        c.imprimirDatos();
         current = puntoInicio ? current->prev : current->next;
-        if (current == (puntoInicio ? tail : head)) break; // Prevent infinite loop
+
+        if (!firstIteration && current == stopNode) break;
+        firstIteration = false;
     }
 }
+
 
 // Ordenar canciones por atributo usando Radix Sort
 void PlayList::ordenarPorRadixSort(function<int(const Cancion&)> obtenerClave) {

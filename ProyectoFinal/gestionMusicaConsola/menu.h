@@ -6,22 +6,20 @@ using namespace std;
 
 class Menu {
 public:
-    //Constructor
+    PlayList playlist;
     Menu() {
         cout << "Inicializando menú y cargando lista de reproducción..." << endl;
-        playlist = PlayList();
     }
 
     // Destructor
     ~Menu() {
         cout << "Liberando recursos y cerrando el menú..." << endl;
     }
-    PlayList playlist;
-    void lectura_csv(PlayList& playlist);
-    void interfaz_menu(PlayList& playlist);
-    void menu_busqueda(PlayList& playlist, int numero_opcion);
-    void menu_ordenamiento(PlayList& playlist, int numero_opcion);
-    void menu_reproduccion_aleatoria(PlayList& playlist, int numero_opcion);
-    void menu_impresion(PlayList& playlist, int numero_opcion);
-    void menu_actualizar_cancion (PlayList& playlist, int numero_opcion);
+    void lectura_csv();
+    void interfaz_menu();
+    void menu_busqueda(int numero_opcion);
+    void menu_ordenamiento(int numero_opcion);
+    void menu_reproduccion_aleatoria(int numero_opcion);
+    void menu_impresion(int numero_opcion);
+    void menu_actualizar_cancion (int numero_opcion);
 };

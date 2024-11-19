@@ -3,7 +3,8 @@
 #include <iostream>
 
 //menú principal
-void Menu::lectura_csv(PlayList& playlist){
+
+void Menu::lectura_csv(){
     // =============================== LECTURA DEL CSV ===============================
     cout << "Leyendo datos desde archivo CSV..." << endl;
     auto inicioLectura = chrono::high_resolution_clock::now();
@@ -15,9 +16,9 @@ void Menu::lectura_csv(PlayList& playlist){
     cout << "Archivo cargado en " << duracionLectura << " segundos." << endl; 
 }
 
-void Menu::interfaz_menu(PlayList& playlist) {
+void Menu::interfaz_menu() {
     int numero_opcion;
-    Menu::lectura_csv(playlist);
+    Menu::lectura_csv();
     // Bucle infinito para mantener el menú en ejecución hasta que el usuario elija salir
     while (numero_opcion != 5) {
         cout << "\nSeleccione una opción: " << endl;
@@ -30,16 +31,16 @@ void Menu::interfaz_menu(PlayList& playlist) {
         cout << "\n";
         // Ejecuta la acción según la opción seleccionada
         if (numero_opcion == 1) {
-            menu_busqueda(playlist, numero_opcion);
+            menu_busqueda(numero_opcion);
         }
         else if (numero_opcion == 2) {
-            menu_ordenamiento(playlist, numero_opcion);
+            menu_ordenamiento(numero_opcion);
         }
         else if (numero_opcion == 3) {
-            menu_reproduccion_aleatoria(playlist, numero_opcion);
+            menu_reproduccion_aleatoria(numero_opcion);
         }
         else if (numero_opcion == 4) {
-            menu_impresion(playlist, numero_opcion);
+            menu_impresion(numero_opcion);
         }
         else if (numero_opcion == 5) {
             cout << "Saliendo del menú..." << endl;
@@ -52,17 +53,17 @@ void Menu::interfaz_menu(PlayList& playlist) {
 }
 
 
-void Menu::menu_busqueda(PlayList& playlist, int numero_opcion) {
-    int anioBusqueda;
+void Menu::menu_busqueda(int numero_opcion) {
     vector<Node*> cancionesAnio;
     Node* cancionID;
-    int idBusqueda;
     cout << "Seleccione un tipo de Búsqueda: " << endl;
     cout << "[1] Por ID" << endl;
     cout << "[2] Por Año" << endl;
+    cout << "[3] Salir" << endl;
     cin >> numero_opcion;
     switch (numero_opcion) {
-        case 1:
+        case 1:{
+            int idBusqueda;
             // Búsqueda por ID
             // =============================== BÚSQUEDA POR ID ===============================
             idBusqueda = playlist.size - 1; // Buscar última canción por ID
@@ -75,8 +76,10 @@ void Menu::menu_busqueda(PlayList& playlist, int numero_opcion) {
             } else {
                 cout << "No se encontró una canción con el ID " << idBusqueda << ".\n";
             }
+        }
             break;
-        case 2:
+        case 2:{
+            int anioBusqueda;
             // =============================== BÚSQUEDA POR AÑO ===============================
             cout << "\nIngrese un año" << endl;
             cin >> anioBusqueda;
@@ -91,7 +94,12 @@ void Menu::menu_busqueda(PlayList& playlist, int numero_opcion) {
             } else {
                 cout << "No se encontraron canciones del año " << anioBusqueda << ".\n";
             }
+        }
             break;
+        case 3:{
+            
+            break;
+        }
 
         default:
             cout << "Opción no válida." << endl;
@@ -100,7 +108,7 @@ void Menu::menu_busqueda(PlayList& playlist, int numero_opcion) {
 }
 
 
-void Menu::menu_ordenamiento(PlayList& playlist, int numero_opcion) {
+void Menu::menu_ordenamiento(int numero_opcion) {
     // Declarar variables fuera del switch para evitar errores de alcance
     chrono::time_point<chrono::high_resolution_clock> inicioOrdenamiento, finOrdenamiento;
     long long duracionOrdenamiento;
@@ -108,7 +116,8 @@ void Menu::menu_ordenamiento(PlayList& playlist, int numero_opcion) {
     cout << "Seleccione un tipo de Ordenamiento" << endl;
     cout << "[1] Por Popularidad" << endl;
     cout << "[2] Por Duración" << endl;
-    cout << "[3] Por Año" << endl; // Corregido el número de opción duplicado
+    cout << "[3] Por Año" << endl; 
+    cout << "[4] Salir" << endl;
     cin >> numero_opcion;
 
     switch (numero_opcion) {
@@ -136,17 +145,20 @@ void Menu::menu_ordenamiento(PlayList& playlist, int numero_opcion) {
             duracionOrdenamiento = chrono::duration_cast<chrono::seconds>(finOrdenamiento - inicioOrdenamiento).count();
             cout << "Ordenamiento completado en " << duracionOrdenamiento << " segundos." << endl;
             break;
-
+        case 4:
+                break;
+            
         default:
             cout << "Opción no válida." << endl;
             break;
     }
 }
 
-void Menu::menu_impresion (PlayList& playlist, int numero_opcion){
+void Menu::menu_impresion (int numero_opcion){
     cout<<"Seleccione un tipo de Impresion"<<endl;
     cout<< "[1] De forma ascendente" << endl;
     cout<< "[2] De forma descendente" << endl;
+    cout<< "[3] Salir" << endl;
     cin>> numero_opcion;
     switch(numero_opcion){
         case 1:
@@ -160,6 +172,8 @@ void Menu::menu_impresion (PlayList& playlist, int numero_opcion){
         playlist.imprimirCanciones(true); // True para imprimir desde `tail` (orden descendente)
         break;
 
+        case 3:
+            break;
         default:
             cout << "Opción no válida." << endl;
             break;
@@ -167,14 +181,14 @@ void Menu::menu_impresion (PlayList& playlist, int numero_opcion){
 
 }
 
-void Menu::menu_reproduccion_aleatoria (PlayList& playlist, int numero_opcion){
+void Menu::menu_reproduccion_aleatoria (int numero_opcion){
     // =============================== REPRODUCCIÓN ALEATORIA ===============================
     cout << "\nReproduciendo canción aleatoria..." << endl;
     playlist.reproduccionAleatoria();
 
 } 
 
-void Menu::menu_actualizar_cancion (PlayList& playlist, int numero_opcion){
+void Menu::menu_actualizar_cancion (int numero_opcion){
        // =============================== ACTUALIZACIÓN DE CANCIÓN ===============================
     int idActualizacion = 1; // Actualizar primera canción
     cout << "\nActualizando canción con ID " << idActualizacion << "..." << endl;
