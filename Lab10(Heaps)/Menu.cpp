@@ -3,26 +3,26 @@
 using namespace std;
 
 void Menu::displayMenu() {
-    cout << "1. Insert" << endl;
-    cout << "2. Get Minimum" << endl;
-    cout << "3. Extract Minimum" << endl;
-    cout << "4. Print Heap" << endl;
-    cout << "5. Exit" << endl;
-    cout << "Enter your choice: ";
+    cout << "1. Insertar" << endl;
+    cout << "2. Obtener Minimo" << endl;
+    cout << "3. Extraer Minimo" << endl;
+    cout << "4. Imprimir Heap" << endl;
+    cout << "5. Salir" << endl;
+    cout << "Elija una: ";
 }
 
 void Menu::handleInsert() {
     int value;
-    cout << "Enter value to insert: ";
+    cout << "Ingrese el valor a insertar: ";
     cin >> value;
     heap.insert(value);
-    cout << "Value inserted." << endl;
+    cout << "Valor insertado." << endl;
 }
 
 void Menu::handleGetMin() {
     try {
         int minValue = heap.getMin();
-        cout << "Minimum value: " << minValue << endl;
+        cout << "Valor minimo: " << minValue << endl;
     } catch (const runtime_error& e) {
         cout << e.what() << endl;
     }
@@ -31,14 +31,14 @@ void Menu::handleGetMin() {
 void Menu::handleExtractMin() {
     try {
         int minValue = heap.extractMin();
-        cout << "Extracted minimum value: " << minValue << endl;
+        cout << "Valor minimo extraido: " << minValue << endl;
     } catch (const runtime_error& e) {
         cout << e.what() << endl;
     }
 }
 
 void Menu::handlePrint() {
-    cout << "Heap structure:" << endl;
+    cout << "Estructura del Heap:" << endl;
     heap.print();
 }
 
@@ -61,10 +61,10 @@ void Menu::run() {
                 handlePrint();
                 break;
             case 5:
-                cout << "Exiting..." << endl;
+                cout << "Saliendo..." << endl;
                 break;
             default:
-                cout << "Invalid choice. Please try again." << endl;
+                cout << "Esa no cuenta joven, prueba de nuevo." << endl;
         }
     } while (choice != 5);
 }

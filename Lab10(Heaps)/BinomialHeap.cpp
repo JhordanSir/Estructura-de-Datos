@@ -98,7 +98,7 @@ int BinomialHeap::getMin() {
 }
 
 int BinomialHeap::extractMin() {
-    if (!head) throw runtime_error("Heap is empty");
+    if (!head) throw runtime_error("Esta vacio");
 
     BinomialTree* minNode = head;
     BinomialTree* minNodePrev = nullptr;
@@ -146,7 +146,7 @@ void BinomialHeap::printTree(BinomialTree* tree, int indent) const {
 void BinomialHeap::print() const {
     BinomialTree* current = head;
     while (current) {
-        cout << "Tree of degree " << current->k << ":" << endl;
+        cout << "Grado del arbol Binomial: " << current->k << ":" << endl;
         printTree(current, 0);
         current = current->hermano;
     }
