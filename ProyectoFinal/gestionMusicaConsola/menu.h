@@ -7,7 +7,7 @@ using namespace std;
 class Menu {
 public:
     PlayList playlist;
-    Menu() {
+    Menu() : playlist(5) {
         cout << "Inicializando menú y cargando lista de reproducción..." << endl;
     }
 
@@ -21,5 +21,5 @@ public:
     void menu_ordenamiento(int numero_opcion);
     void menu_reproduccion_aleatoria(int numero_opcion);
     void menu_impresion(int numero_opcion);
-    void menu_actualizar_cancion (int numero_opcion);
+    void menu_actualizar_cancion(int numero_opcion);
 };
