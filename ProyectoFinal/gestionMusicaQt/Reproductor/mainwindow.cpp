@@ -38,28 +38,84 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Configurar el diseño
     mainLayout = new QVBoxLayout(centralWidget);
-    mainLayout->addWidget(new QLabel("Buscar:"));
-    mainLayout->addWidget(lineEditBuscar);
-    mainLayout->addWidget(radioButtonArtista);
-    mainLayout->addWidget(btnBuscar);
+    buscarLayout = new QHBoxLayout();
+    atributosLayout = new QHBoxLayout();
+    botonesLayout = new QHBoxLayout();
+    actualizarLayout = new QHBoxLayout();
+
+    // Añadir widgets al layout de búsqueda
+    buscarLayout->addWidget(new QLabel("Buscar:"));
+    buscarLayout->addWidget(lineEditBuscar);
+    buscarLayout->addWidget(radioButtonArtista);
+    buscarLayout->addWidget(btnBuscar);
+
+    // Añadir widgets al layout de atributos
+    atributosLayout->addWidget(new QLabel("Ordenar por atributo:"));
+    atributosLayout->addWidget(comboBoxAtributo);
+    atributosLayout->addWidget(btnOrdenar);
+
+    // Añadir widgets al layout de botones
+    botonesLayout->addWidget(btnReproducirAleatorio);
+    botonesLayout->addWidget(btnCargarArchivo);
+
+    // Añadir widgets al layout de actualización
+    actualizarLayout->addWidget(new QLabel("ID:"));
+    actualizarLayout->addWidget(lineEditID);
+    actualizarLayout->addWidget(new QLabel("Nombre:"));
+    actualizarLayout->addWidget(lineEditNombre);
+    actualizarLayout->addWidget(new QLabel("Artista:"));
+    actualizarLayout->addWidget(lineEditArtista);
+    actualizarLayout->addWidget(new QLabel("Álbum:"));
+    actualizarLayout->addWidget(lineEditAlbum);
+    actualizarLayout->addWidget(new QLabel("Duración:"));
+    actualizarLayout->addWidget(lineEditDuracion);
+    actualizarLayout->addWidget(btnActualizar);
+
+    // Añadir layouts al layout principal
+    mainLayout->addLayout(buscarLayout);
     mainLayout->addWidget(new QLabel("Resultados:"));
     mainLayout->addWidget(textEditResultados);
-    mainLayout->addWidget(new QLabel("Ordenar por atributo:"));
-    mainLayout->addWidget(comboBoxAtributo);
-    mainLayout->addWidget(btnOrdenar);
-    mainLayout->addWidget(btnReproducirAleatorio);
-    mainLayout->addWidget(btnActualizar);
-    mainLayout->addWidget(btnCargarArchivo); // Añadir el botón al layout
-    mainLayout->addWidget(new QLabel("ID:"));
-    mainLayout->addWidget(lineEditID);
-    mainLayout->addWidget(new QLabel("Nombre:"));
-    mainLayout->addWidget(lineEditNombre);
-    mainLayout->addWidget(new QLabel("Artista:"));
-    mainLayout->addWidget(lineEditArtista);
-    mainLayout->addWidget(new QLabel("Álbum:"));
-    mainLayout->addWidget(lineEditAlbum);
-    mainLayout->addWidget(new QLabel("Duración:"));
-    mainLayout->addWidget(lineEditDuracion);
+    mainLayout->addLayout(atributosLayout);
+    mainLayout->addLayout(botonesLayout);
+    mainLayout->addLayout(actualizarLayout);
+
+
+    // Aplicar estilos CSS
+    QString styleSheet = "QLineEdit {"
+                         "  border: 2px solid #1E90FF;" // Azul metálico
+                         "  border-radius: 10px;"
+                         "  padding: 0 8px;"
+                         "  background: #000000;" // Negro
+                         "  color: #FFFFFF;" // Texto blanco
+                         "  selection-background-color: #4682B4;" // Azul metálico oscuro
+                         "}"
+                         "QPushButton {"
+                         "  border: 2px solid #1E90FF;" // Azul metálico
+                         "  border-radius: 10px;"
+                         "  padding: 6px 12px;"
+                         "  background: #000000;" // Negro
+                         "  color: #FFFFFF;" // Texto blanco
+                         "}"
+                         "QRadioButton {"
+                         "  padding: 6px 12px;"
+                         "  color: #FFFFFF;" // Texto blanco
+                         "}"
+                         "QComboBox {"
+                         "  border: 2px solid #1E90FF;" // Azul metálico
+                         "  border-radius: 10px;"
+                         "  padding: 6px 12px;"
+                         "  background: #000000;" // Negro
+                         "  color: #FFFFFF;" // Texto blanco
+                         "}"
+                         "QTextEdit {"
+                         "  border: 2px solid #1E90FF;" // Azul metálico
+                         "  border-radius: 10px;"
+                         "  padding: 6px 12px;"
+                         "  background: #000000;" // Negro
+                         "  color: #FFFFFF;" // Texto blanco
+                         "}";
+    setStyleSheet(styleSheet);
+
 
     // Conectar las señales a los slots
     connect(btnBuscar, &QPushButton::clicked, this, &MainWindow::on_btnBuscar_clicked);
@@ -104,16 +160,47 @@ void MainWindow::on_btnOrdenar_clicked()
 
     textEditResultados->clear();
     for (const auto& cancion : playlist.todasLasCanciones) {
-        textEditResultados->append(
-            QString::fromStdString(cancion.track_name + " - " + cancion.artist_name)
-            );
+        if (atributo == "popularidad") {
+            textEditResultados->append(
+                QString::fromStdString(to_string(cancion.popularity) + " - " + cancion.track_name)
+                );
+        } else if (atributo == "anio") {
+            textEditResultados->append(
+                QString::fromStdString(to_string(cancion.year) + " - " + cancion.track_name)
+                );
+        } else if (atributo == "artista") {
+            textEditResultados->append(
+                QString::fromStdString(cancion.artist_name + " - " + cancion.track_name)
+                );
+        } else if (atributo == "cancion") {
+            textEditResultados->append(
+                QString::fromStdString(cancion.track_name)
+                );
+        } else if (atributo == "genero") {
+            textEditResultados->append(
+                QString::fromStdString(cancion.genre + " - " + cancion.track_name)
+                );
+        } else if (atributo == "duracion") {
+            textEditResultados->append(
+                QString::fromStdString(to_string(cancion.duration_ms) + " ms - " + cancion.track_name)
+                );
+        } else if (atributo == "tempo") {
+            textEditResultados->append(
+                QString::fromStdString(to_string(cancion.tempo) + " - " + cancion.track_name)
+                );
+        }
     }
 }
 
 void MainWindow::on_btnReproducirAleatorio_clicked()
 {
     // Llama al método reproduccionAleatoria y verifica que exista
-    playlist.reproduccionAleatoria();
+    Cancion cancion = playlist.reproduccionAleatoria();
+
+    textEditResultados->clear();
+    textEditResultados->append(
+        QString::fromStdString(cancion.track_name + " - " + cancion.artist_name)
+        );
 }
 
 void MainWindow::on_btnActualizar_clicked()

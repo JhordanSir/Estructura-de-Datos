@@ -133,10 +133,10 @@ void PlayList::ordenarPorAtributo(const std::string& atributo) {
     // }
 }
 
-void PlayList::reproduccionAleatoria() {
+Cancion PlayList::reproduccionAleatoria() {
     if (todasLasCanciones.empty()) {
         cout << "No hay canciones en la lista de reproducción." << endl;
-        return;
+        return Cancion(); // Devolver una canción por defecto
     }
 
     static bool seeded = false;
@@ -147,6 +147,7 @@ void PlayList::reproduccionAleatoria() {
 
     int indiceAleatorio = rand() % todasLasCanciones.size();
     todasLasCanciones[indiceAleatorio].reproducirCancion();
+    return todasLasCanciones[indiceAleatorio];
 }
 
 bool PlayList::actualizarCancion(int id, const Cancion& nuevaCancion) {

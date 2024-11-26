@@ -21,7 +21,7 @@ public:
     void cargarCSV(const std::string& nombre_archivo);
     void imprimirCanciones();
     void ordenarPorAtributo(const std::string& atributo);
-    void reproduccionAleatoria();
+    Cancion reproduccionAleatoria();
     bool actualizarCancion(int id, const Cancion& nuevaCancion);
 };
 

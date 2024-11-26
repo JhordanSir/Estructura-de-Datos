@@ -30,7 +30,7 @@ private slots:
     void on_btnOrdenar_clicked();
     void on_btnReproducirAleatorio_clicked();
     void on_btnActualizar_clicked();
-    void on_btnCargarArchivo_clicked(); // Nuevo slot para cargar el archivo CSV
+    void on_btnCargarArchivo_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -46,13 +46,17 @@ private:
     QPushButton *btnOrdenar;
     QPushButton *btnReproducirAleatorio;
     QPushButton *btnActualizar;
-    QPushButton *btnCargarArchivo; // Nuevo botón para cargar el archivo CSV
+    QPushButton *btnCargarArchivo;
     QRadioButton *radioButtonArtista;
     QComboBox *comboBoxAtributo;
 
     // Layout principal
     QWidget *centralWidget;
     QVBoxLayout *mainLayout;
+    QHBoxLayout *buscarLayout;
+    QHBoxLayout *atributosLayout;
+    QHBoxLayout *botonesLayout;
+    QHBoxLayout *actualizarLayout;
 };
 
 #endif // MAINWINDOW_H
