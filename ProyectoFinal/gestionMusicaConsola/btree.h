@@ -10,7 +10,7 @@ public:
     std::vector<Cancion> keys;
     std::vector<BTreeNode*> children;
     bool isLeaf;
-    int t; // Minimum degree
+    int t;
 
     BTreeNode(int t, bool isLeaf);
 
@@ -20,14 +20,12 @@ public:
     BTreeNode* search(const std::string& key, bool searchByArtist);
     void searchAll(const std::string& key, bool searchByArtist, std::vector<Cancion>& result);
 
-    // Utility functions
-    int findKey(const std::string& key, bool searchByArtist);
 };
 
 class BTree {
 public:
     BTreeNode* root;
-    int t; // Minimum degree
+    int t;
 
     BTree(int t);
 
