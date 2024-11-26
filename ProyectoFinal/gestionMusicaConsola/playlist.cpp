@@ -113,24 +113,24 @@ void PlayList::ordenarPorAtributo(const std::string& atributo) {
 
     sort(std::execution::par,todasLasCanciones.begin(), todasLasCanciones.end(), comparar);
 
-    cout << "Canciones después de ordenar por " << atributo << ":" << endl;
-    for (const auto& cancion : todasLasCanciones) {
-        if (atributo == "popularidad") {
-            cout << cancion.popularity << " - " << cancion.track_name << endl;
-        } else if (atributo == "anio") {
-            cout << cancion.year << " - " << cancion.track_name << endl;
-        } else if (atributo == "artista") {
-            cout << cancion.artist_name << " - " << cancion.track_name << endl;
-        } else if (atributo == "cancion") {
-            cout << cancion.track_name << endl;
-        } else if (atributo == "genero") {
-            cout << cancion.genre << " - " << cancion.track_name << endl;
-        } else if (atributo == "duracion") {
-            cout << cancion.duration_ms << " ms - " << cancion.track_name << endl;
-        } else if (atributo == "tempo") {
-            cout << cancion.tempo << " - " << cancion.track_name << endl;
-        }
-    }
+    // cout << "Canciones después de ordenar por " << atributo << ":" << endl;
+    // for (const auto& cancion : todasLasCanciones) {
+    //     if (atributo == "popularidad") {
+    //         cout << cancion.popularity << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "anio") {
+    //         cout << cancion.year << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "artista") {
+    //         cout << cancion.artist_name << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "cancion") {
+    //         cout << cancion.track_name << endl;
+    //     } else if (atributo == "genero") {
+    //         cout << cancion.genre << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "duracion") {
+    //         cout << cancion.duration_ms << " ms - " << cancion.track_name << endl;
+    //     } else if (atributo == "tempo") {
+    //         cout << cancion.tempo << " - " << cancion.track_name << endl;
+    //     }
+    // }
 }
 
 void PlayList::reproduccionAleatoria() {

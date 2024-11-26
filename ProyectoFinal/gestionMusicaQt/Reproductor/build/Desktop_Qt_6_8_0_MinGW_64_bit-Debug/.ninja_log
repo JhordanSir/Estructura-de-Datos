@@ -1,0 +1,25 @@
+# ninja log v6
+62	1283	7542883744267208	Reproductor_autogen/timestamp	7427886a74b311ce
+62	1283	7542883744267208	Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+1291	5976	7542883745235073	CMakeFiles/Reproductor.dir/mainwindow.cpp.obj	de2e92842e304828
+62	1283	7542883744267208	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/timestamp	7427886a74b311ce
+62	1283	7542883744267208	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+1288	5918	7542883745205054	CMakeFiles/Reproductor.dir/main.cpp.obj	7ad32ea22fd4f0ca
+1284	5867	7542883745166617	CMakeFiles/Reproductor.dir/Reproductor_autogen/mocs_compilation.cpp.obj	c6aa5262eb68abb8
+146	312	7542886056167031	Reproductor_autogen/timestamp	7427886a74b311ce
+146	312	7542886056167031	Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+146	312	7542886056167031	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/timestamp	7427886a74b311ce
+146	312	7542886056167031	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+320	1104	7542886057907763	CMakeFiles/Reproductor.dir/D_/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/cancion.cpp.obj	7eb3e6501758e375
+316	1470	7542886057867410	CMakeFiles/Reproductor.dir/D_/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/btree.cpp.obj	67f26078b4d9dd80
+324	1648	7542886057947831	CMakeFiles/Reproductor.dir/D_/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/menu.cpp.obj	e3a2129ea86ff373
+328	2038	7542886057993225	CMakeFiles/Reproductor.dir/D_/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.cpp.obj	53c5cf94277f1082
+314	4316	7542886057837420	CMakeFiles/Reproductor.dir/mainwindow.cpp.obj	de2e92842e304828
+4316	4702	7542886097867754	Reproductor.exe	c0ac3d359786e12d
+24	171	7542890849353442	Reproductor_autogen/timestamp	7427886a74b311ce
+24	171	7542890849353442	Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+24	171	7542890849353442	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/timestamp	7427886a74b311ce
+24	171	7542890849353442	D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/mocs_compilation.cpp	7427886a74b311ce
+175	1460	7542890850864064	CMakeFiles/Reproductor.dir/D_/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.cpp.obj	53c5cf94277f1082
+172	3384	7542890850834033	CMakeFiles/Reproductor.dir/mainwindow.cpp.obj	de2e92842e304828
+3384	3793	7542890882955238	Reproductor.exe	c0ac3d359786e12d
