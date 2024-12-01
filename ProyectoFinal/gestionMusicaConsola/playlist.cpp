@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <execution> 
 
-PlayList::PlayList(int t) {
+PlayList::PlayList(int t, const::string& name) {
     btree = new BTree(t);
 }
 
@@ -113,30 +113,30 @@ void PlayList::ordenarPorAtributo(const std::string& atributo) {
 
     sort(std::execution::par,todasLasCanciones.begin(), todasLasCanciones.end(), comparar);
 
-    cout << "Canciones después de ordenar por " << atributo << ":" << endl;
-    for (const auto& cancion : todasLasCanciones) {
-        if (atributo == "popularidad") {
-            cout << cancion.popularity << " - " << cancion.track_name << endl;
-        } else if (atributo == "anio") {
-            cout << cancion.year << " - " << cancion.track_name << endl;
-        } else if (atributo == "artista") {
-            cout << cancion.artist_name << " - " << cancion.track_name << endl;
-        } else if (atributo == "cancion") {
-            cout << cancion.track_name << endl;
-        } else if (atributo == "genero") {
-            cout << cancion.genre << " - " << cancion.track_name << endl;
-        } else if (atributo == "duracion") {
-            cout << cancion.duration_ms << " ms - " << cancion.track_name << endl;
-        } else if (atributo == "tempo") {
-            cout << cancion.tempo << " - " << cancion.track_name << endl;
-        }
-    }
+    // cout << "Canciones después de ordenar por " << atributo << ":" << endl;
+    // for (const auto& cancion : todasLasCanciones) {
+    //     if (atributo == "popularidad") {
+    //         cout << cancion.popularity << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "anio") {
+    //         cout << cancion.year << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "artista") {
+    //         cout << cancion.artist_name << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "cancion") {
+    //         cout << cancion.track_name << endl;
+    //     } else if (atributo == "genero") {
+    //         cout << cancion.genre << " - " << cancion.track_name << endl;
+    //     } else if (atributo == "duracion") {
+    //         cout << cancion.duration_ms << " ms - " << cancion.track_name << endl;
+    //     } else if (atributo == "tempo") {
+    //         cout << cancion.tempo << " - " << cancion.track_name << endl;
+    //     }
+    // }
 }
 
-Cancion PlayList::reproduccionAleatoria() {
+void PlayList::reproduccionAleatoria() {
     if (todasLasCanciones.empty()) {
         cout << "No hay canciones en la lista de reproducción." << endl;
-        return Cancion(); // Devolver una canción por defecto
+        return;
     }
 
     static bool seeded = false;
@@ -147,7 +147,6 @@ Cancion PlayList::reproduccionAleatoria() {
 
     int indiceAleatorio = rand() % todasLasCanciones.size();
     todasLasCanciones[indiceAleatorio].reproducirCancion();
-    return todasLasCanciones[indiceAleatorio];
 }
 
 bool PlayList::actualizarCancion(int id, const Cancion& nuevaCancion) {

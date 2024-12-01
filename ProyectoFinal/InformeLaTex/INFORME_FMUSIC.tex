@@ -1,0 +1,1246 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc} % Define la codificación del archivo
+\usepackage[spanish]{babel}
+% Usar Times New Roman con pdfLaTeX
+\usepackage{mathptmx}
+\usepackage{tocloft} % Para el índice
+\usepackage{geometry}
+\geometry{margin=1in,paperwidth=595pt,paperheight=841pt} % Márgenes seguros
+% Paquetes adicionales
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{enumitem} 
+
+% Definición de colores para el código
+\definecolor{codebg}{rgb}{0.95,0.95,0.95}      % Fondo gris claro
+\definecolor{codeframe}{rgb}{0,0,0}      % Color del borde
+\definecolor{keyword}{rgb}{0.13,0.55,0.13}     % Verde oscuro para palabras clave
+\definecolor{comment}{rgb}{0.5,0.5,0.5}        % Gris para comentarios
+\definecolor{string}{rgb}{0.58,0,0.83}         % Púrpura para cadenas
+\definecolor{variable}{rgb}{0,0,1}             % Azul para variables
+\definecolor{operator}{rgb}{0.75,0,0.75}       % Magenta para operadores
+
+\lstdefinestyle{mystyle}{
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={ñ}{{\~n}}1
+             {Ñ}{{\~N}}1
+             {á}{{\'a}}1
+             {é}{{\'e}}1
+             {í}{{\'i}}1
+             {ó}{{\'o}}1
+             {ú}{{\'u}}1
+             {Á}{{\'A}}1
+             {É}{{\'E}}1
+             {Í}{{\'I}}1
+             {Ó}{{\'O}}1
+             {Ú}{{\'U}}1,
+    language=C++,
+    backgroundcolor=\color{codebg},         % Color de fondo
+    keywordstyle=\color{keyword}\bfseries,   % Color y negrita para palabras clave
+    commentstyle=\color{comment}\itshape,    % Color y cursiva para comentarios
+    stringstyle=\color{string},              % Color para cadenas
+    identifierstyle=\color{variable},        % Color para variables
+    basicstyle=\ttfamily\footnotesize,       % Estilo básico
+    breaklines=true,                         % Romper líneas largas
+    numbers=left,                            % Numeración a la izquierda
+    numberstyle=\tiny\color{codeframe},      % Estilo de numeración
+    frame=single,                            % Borde alrededor del código
+    rulecolor=\color{codeframe},             % Color del borde
+    captionpos=b,                            % Posición de la leyenda
+    showstringspaces=false,                  % No mostrar espacios explícitos
+}
+
+% Documento
+\begin{document}
+    
+    % Apartado para configurar interlineado
+    \setstretch{1.4} % Cambiar a 1, 1.25, 1.5, 2 para ajustar el interlineado
+    
+    % Inicio de la carátula
+    \begin{center}
+        \fontsize{12}{14}\selectfont % Tamaño 12 puntos con interlineado 14
+        \textbf{“Año del Bicentenario, de la consolidación de nuestra Independencia, \\
+        y de la conmemoración de las heroicas batallas de Junín y Ayacucho”}
+        
+        \includegraphics[width=0.7\textwidth]{LaSalle.jpg}\\
+    
+        
+        \textbf{CARRERA: INGENIERÍA DE SOFTWARE} \\
+        \textbf{REPRODUCTOR DE MÚSICA PROGRAMADO EN LENGUAJE C Y C++} \\
+        \textbf{ESTRUCTURA DE DATOS} \\
+        
+        \vspace{1cm}
+        
+        \textbf{ESTUDIANTES:} \\
+        
+        \vspace{1cm}
+        
+        \textbf{Ortiz Castañeda Jorge Luis} \\
+        \textbf{Huamani Huamani Jhordan Steven Octavio (No hace nada)} \\
+        \textbf{Flores Leon Miguel Angel} \\
+
+        \vspace{1cm}
+        
+        \textbf{DOCENTE:} \\
+        \textbf{Luque Mamani Edson Fracisco} \\
+
+        \vspace{1cm}
+        
+        \textbf{Arequipa, Perú} \\
+        \textbf{30 de noviembre de 2024}
+    \end{center}
+    % Fin de la carátula
+    
+    \newpage
+    
+    \renewcommand{\contentsname}{}
+    
+    \begin{center}
+        \textbf{\huge Índice} % Título del índice centrado y en negrita
+    \end{center}
+    
+    \tableofcontents
+    
+    \newpage
+    \setlength{\parindent}{4em}
+    \begin{flushleft}
+        \section{Introducción}
+        \noindent\hspace*{4em}En este informe se presenta el desarrollo de una aplicación para un reproductor de música, implementada utilizando los lenguajes de programación C y C++, con la interfaz gráfica desarrollada mediante el framework Qt. El objetivo principal de la aplicación es proporcionar una experiencia de usuario intuitiva y fluida, facilitando la reproducción, búsqueda y gestión de canciones en un entorno de fácil acceso. La aplicación incorpora las funciones fundamentales basadas en la metodología CRUD (Crear, Leer, Actualizar y Eliminar), que es esencial para la manipulación y gestión de los datos de las canciones. Mediante este enfoque, el sistema permite al usuario agregar nuevas canciones a la biblioteca, leer la información almacenada, actualizar los detalles de las canciones existentes y eliminar aquellas que ya no sean necesarias.\\
+    
+        \noindent\hspace*{4em}Además de estas funcionalidades básicas, se ha integrado un sistema de búsqueda avanzada, que permite a los usuarios encontrar canciones de manera eficiente utilizando diversos criterios, tales como año de lanzamiento, género musical, autor, o incluso palabras clave dentro de los metadatos de las canciones. Esta funcionalidad proporciona una experiencia más personalizada y rápida al gestionar grandes colecciones de música.\\
+    
+        \noindent\hspace*{4em}Para la organización interna de los datos, hemos optado por utilizar listas enlazadas como estructura de datos principal. Esta elección se debe a su flexibilidad, eficiencia y facilidad de implementación en C y C++. Las listas enlazadas permiten un manejo eficiente de la memoria y proporcionan un rendimiento óptimo al manipular datos de tamaño variable, lo que resulta especialmente útil cuando se gestionan grandes cantidades de canciones.\\
+    
+        \noindent\hspace*{4em}La interfaz gráfica de usuario (GUI) ha sido desarrollada utilizando Qt, un framework de desarrollo de aplicaciones multiplataforma, lo que permite que la aplicación sea compatible con diferentes sistemas operativos sin necesidad de modificaciones significativas. Qt proporciona herramientas poderosas para crear interfaces intuitivas, y su integración con C++ facilita la creación de una aplicación robusta y eficiente.\\
+    
+        \newpage
+        
+        \section{¿Por qué utilizar Linked List?}
+        \noindent\hspace*{4em}Aunque la estructura actual del proyecto se basa en árboles B, en las primeras etapas consideramos utilizar listas enlazadas debido a su facilidad de implementación y a la mayor legibilidad que ofrecen durante el proceso de revisión y difusión del código.\\
+        \noindent\hspace*{4em}En este sentido, el uso de listas enlazadas nos permitió implementar una lógica básica que facilitó la comprensión de la complejidad involucrada en el manejo de miles o millones de datos provenientes de un archivo CSV (separado por comas).
+    
+        \section{Hablemos de los BTree}
+        \noindent\hspace*{4em}Los B-trees son una estructura de datos auto-equilibrada que garantiza búsquedas, inserciones y eliminaciones eficientes. Están diseñados específicamente para manejar grandes volúmenes de datos y optimizar el acceso en memoria secundaria como discos. Cada nodo en un B-tree puede contener múltiples claves, lo que reduce la profundidad del árbol y minimiza los accesos necesarios para realizar operaciones. Una ventaja clave sobre las listas enlazadas es su tiempo de búsqueda de \(O(\log n)\), frente al \(O(n)\) de las listas, ya que estas últimas requieren un recorrido secuencial para localizar un elemento.\\
+
+        \noindent\hspace*{4em}Esto hace que los B-trees sean ideales para bases de datos y sistemas de archivos, donde se busca optimizar el tiempo de acceso. En contraste con las listas enlazadas, que son lineales, los B-trees son jerárquicos y mantienen las claves ordenadas dentro de los nodos, facilitando tanto la búsqueda binaria como las operaciones de división o combinación necesarias para mantener el balance. Además, los B-trees son especialmente útiles para datos en disco, ya que cada nodo está diseñado para ajustarse al tamaño de un bloque de memoria o sector de disco, reduciendo las operaciones de entrada y salida. La capacidad de contener múltiples claves en un nodo también mejora la eficiencia del almacenamiento en comparación con las listas enlazadas, que requieren espacio adicional para punteros por cada elemento. Aunque las listas enlazadas son simples y rápidas para insertar y eliminar elementos en posiciones arbitrarias, su rendimiento general se degrada cuando los datos crecen significativamente o cuando las búsquedas son frecuentes. Por estas razones, los B-trees son una elección superior para sistemas donde la eficiencia en el manejo de grandes conjuntos de datos es crucial.
+    
+        \section{Explicación del Código para el Backend}
+            \subsection{btree.h}
+            
+            \begin{lstlisting}[language=C, style=mystyle, caption={Cabecera de un Árbol B}]
+#ifndef BTREE_H
+#define BTREE_H
+
+#include "cancion.h"
+#include <vector>
+#include <string>
+
+class BTreeNode {
+public:
+    std::vector<Cancion> keys;
+    std::vector<BTreeNode*> children;
+    bool isLeaf;
+    int t;
+
+    BTreeNode(int t, bool isLeaf);
+
+    void insertNonFull(Cancion k);
+    void splitChild(int i, BTreeNode* y);
+    void traverse();
+    BTreeNode* search(const std::string& key, bool searchByArtist);
+    void searchAll(const std::string& key, bool searchByArtist, std::vector<Cancion>& result);
+
+};
+
+class BTree {
+public:
+    BTreeNode* root;
+    int t;
+
+    BTree(int t);
+
+    void traverse();
+    BTreeNode* search(const std::string& key, bool searchByArtist);
+    void insert(Cancion k);
+    void searchAll(const std::string& key, bool searchByArtist, std::vector<Cancion>& result); 
+};
+    
+#endif // BTREE_H
+            \end{lstlisting}
+
+            \noindent\hspace*{4em}Este código define las clases necesarias para implementar un \textbf{B-Tree}, una estructura de datos balanceada útil para almacenar grandes conjuntos de datos de manera eficiente. Está dividido en dos partes principales: la clase \textbf{BTreeNode} para los nodos individuales del árbol y la clase \textbf{BTree} para representar el árbol completo.
+            
+            \subsubsection{Directivas de Preprocesador}
+                \noindent\hspace*{4em}El archivo comienza con las directivas de preprocesador \verb|#ifndef|, \verb|#define| y \verb|#endif| para evitar que el archivo de cabecera sea incluido múltiples veces en el programa. Luego, incluye los archivos necesarios: \verb|cancion.h|, que probablemente define la estructura o clase \textbf{Cancion}, y las bibliotecas estándar \textbf{vector} y \textbf{string}.
+            
+            \subsubsection{Clase BTreeNode}
+                \noindent\hspace*{4em}La clase \textbf{BTreeNode} representa un nodo del B-Tree. Contiene:
+                
+                \begin{itemize}[left=4em]  % Ajuste global para la indentación
+                    \item Un vector de objetos \textbf{Cancion} llamado \textbf{keys} que almacena las claves en el nodo.
+                    \item Un vector de punteros a nodos \textbf{children} que almacena los hijos del nodo.
+                    \item Un booleano \textbf{isLeaf} que indica si el nodo es una hoja.
+                    \item Un entero \textbf{t} que representa el grado mínimo del B-Tree.
+                \end{itemize}
+                
+                \noindent\hspace*{4em}Además, la clase \textbf{BTreeNode} incluye varios métodos importantes:
+                
+                \begin{itemize}[left=4em]  % Ajuste global para la indentación
+                    \item \textbf{Constructor}: Inicializa un nodo con el grado mínimo \textbf{t} y un indicador de si es \textbf{hoja}.
+                    \item \textbf{insertNonFull}: Inserta una \textbf{clave} en un nodo que no está \textbf{lleno}.
+                    \item \textbf{splitChild}: Divide un \textbf{hijo lleno} en dos nodos más \textbf{pequeños}.
+                    \item \textbf{traverse}: Recorre y muestra las \textbf{claves} en el nodo y sus \textbf{hijos}.
+                    \item \textbf{search}: Busca una \textbf{clave} en el nodo y sus \textbf{descendientes}, con la opción de buscar por \textbf{nombre del artista} (\textbf{searchByArtist}).
+                    \item \textbf{searchAll}: Busca todas las \textbf{canciones} que coincidan con un \textbf{criterio} y las almacena en un \textbf{vector de resultados}.
+                \end{itemize}
+
+            
+            \subsubsection{Clase BTree}
+                \noindent\hspace*{4em}La clase \textbf{BTree} representa el \textbf{árbol} en su totalidad. Contiene:
+                
+                \begin{itemize}[left=4em]  % Ajuste global para la indentación
+                    \item Un \textbf{puntero} \textbf{root} que apunta al \textbf{nodo raíz} del \textbf{árbol}.
+                    \item Un \textbf{entero} \textbf{t} que especifica el \textbf{grado mínimo} del \textbf{árbol}.
+                \end{itemize}
+                
+                \noindent\hspace*{4em}Sus métodos incluyen:
+                
+                \begin{itemize}[left=4em]  % Ajuste global para la indentación
+                    \item \textbf{Constructor}: Inicializa un \textbf{árbol vacío} con el \textbf{grado mínimo} \textbf{t}.
+                    \item \textbf{traverse}: Recorre y muestra todas las \textbf{claves} del \textbf{árbol}.
+                    \item \textbf{search}: Busca una \textbf{clave} en todo el \textbf{árbol} utilizando la función correspondiente en los \textbf{nodos}.
+                    \item \textbf{insert}: Inserta una \textbf{clave} en el \textbf{árbol}, manejando casos especiales como cuando la \textbf{raíz} está \textbf{llena}.
+                    \item \textbf{searchAll}: Realiza una \textbf{búsqueda exhaustiva} en todo el \textbf{árbol} y devuelve los \textbf{resultados coincidentes}.
+                \end{itemize}
+            
+            \subsubsection{Características del B-Tree}
+                \noindent\hspace*{4em}Este código utiliza vectores y punteros para manejar la estructura jerárquica del B-Tree, lo que permite una gestión dinámica de memoria y escalabilidad para almacenar claves y nodos. La estructura es adecuada para aplicaciones como bases de datos y sistemas de archivos donde la eficiencia en la búsqueda y actualización de datos es crucial.
+                
+            \vspace{1cm}
+        \subsection{btree.cpp}
+            \begin{lstlisting}[language=C++, style=mystyle, caption={Código de un Árbol B}]
+#include "btree.h"
+#include <iostream>
+
+BTree::BTree(int t) : t(t), root(nullptr) {}
+
+BTreeNode::BTreeNode(int t, bool isLeaf) : t(t), isLeaf(isLeaf) {
+    keys.reserve(2 * t - 1);
+    children.reserve(2 * t);
+}
+
+void BTreeNode::traverse() {
+    int i;
+    for (i = 0; i < keys.size(); i++) {
+        if (!isLeaf) {
+            children[i]->traverse();
+        }
+        keys[i].imprimirDatos();
+    }
+    if (!isLeaf) {
+        children[i]->traverse();
+    }
+}
+
+BTreeNode* BTreeNode::search(const std::string& key, bool searchByArtist) {
+    int i = 0;
+    while (i < keys.size() && (searchByArtist ? keys[i].artist_name : keys[i].track_name) < key) {
+        i++;
+    }
+
+    if (i < keys.size() && (searchByArtist ? keys[i].artist_name : keys[i].track_name) == key) {
+        return this;
+    }
+
+    if (isLeaf) {
+        return nullptr;
+    }
+
+    return children[i]->search(key, searchByArtist);
+}
+
+void BTreeNode::searchAll(const std::string& key, bool searchByArtist, std::vector<Cancion>& result) {
+    int i = 0;
+    while (i < keys.size() && (searchByArtist ? keys[i].artist_name : keys[i].track_name) < key) {
+        i++;
+    }
+
+    if (i < keys.size() && (searchByArtist ? keys[i].artist_name : keys[i].track_name) == key) {
+        result.push_back(keys[i]);
+    }
+
+    if (isLeaf) {
+        return;
+    }
+
+    for (int j = 0; j <= keys.size(); j++) {
+        children[j]->searchAll(key, searchByArtist, result);
+    }
+}
+
+void BTree::traverse() {
+    if (root != nullptr) {
+        root->traverse();
+    }
+}
+
+BTreeNode* BTree::search(const std::string& key, bool searchByArtist) {
+    return (root == nullptr) ? nullptr : root->search(key, searchByArtist);
+}
+
+void BTree::searchAll(const std::string& key, bool searchByArtist, std::vector<Cancion>& result) {
+    if (root != nullptr) {
+        root->searchAll(key, searchByArtist, result);
+    }
+}
+
+void BTree::insert(Cancion k) {
+    if (root == nullptr) {
+        root = new BTreeNode(t, true);
+        root->keys.push_back(k);
+    } else {
+        if (root->keys.size() == 2 * t - 1) {
+            BTreeNode* s = new BTreeNode(t, false);
+            s->children.push_back(root);
+            s->splitChild(0, root);
+
+            int i = 0;
+            if ((s->keys[0].artist_name < k.artist_name) || (s->keys[0].track_name < k.track_name)) {
+                i++;
+            }
+            s->children[i]->insertNonFull(k);
+
+            root = s;
+        } else {
+            root->insertNonFull(k);
+        }
+    }
+}
+
+void BTreeNode::insertNonFull(Cancion k) {
+    int i = keys.size() - 1;
+
+    if (isLeaf) {
+        keys.push_back(k);
+        while (i >= 0 && (keys[i].artist_name > k.artist_name || keys[i].track_name > k.track_name)) {
+            keys[i + 1] = keys[i];
+            i--;
+        }
+        keys[i + 1] = k;
+    } else {
+        while (i >= 0 && (keys[i].artist_name > k.artist_name || keys[i].track_name > k.track_name)) {
+            i--;
+        }
+        if (children[i + 1]->keys.size() == 2 * t - 1) {
+            splitChild(i + 1, children[i + 1]);
+            if ((keys[i + 1].artist_name < k.artist_name) || (keys[i + 1].track_name < k.track_name)) {
+                i++;
+            }
+        }
+        children[i + 1]->insertNonFull(k);
+    }
+}
+
+void BTreeNode::splitChild(int i, BTreeNode* y) {
+    BTreeNode* z = new BTreeNode(y->t, y->isLeaf);
+    z->keys.assign(y->keys.begin() + t, y->keys.end());
+    y->keys.resize(t - 1);
+
+    if (!y->isLeaf) {
+        z->children.assign(y->children.begin() + t, y->children.end());
+        y->children.resize(t);
+    }
+
+    children.insert(children.begin() + i + 1, z);
+    keys.insert(keys.begin() + i, y->keys[t - 1]);
+}
+            \end{lstlisting}
+
+            \noindent\hspace{4em}Este código implementa un \textit{Árbol B} (B-tree), una estructura de datos autoequilibrada que permite realizar operaciones de búsqueda, inserción y eliminación en tiempo logarítmico. Se utiliza comúnmente en bases de datos y sistemas de archivos debido a su eficiencia en la gestión de grandes volúmenes de datos. El código está compuesto por dos clases principales: \textbf{BTree} y \textbf{BTreeNode}. La clase \textbf{BTree} es la estructura de alto nivel que maneja el árbol en su conjunto, mientras que \textbf{BTreeNode} representa un nodo individual del árbol.
+            
+            \subsubsection{Desarrollando la Clase BTree }
+            
+                \noindent\hspace{4em}La clase \textbf{BTree} tiene como miembro principal la raíz del árbol (\textbf{root}) y un parámetro \textbf{t} que especifica el orden del árbol. El constructor de \textbf{BTree} toma un valor \textbf{t} como argumento y establece la raíz en \textbf{nullptr}. La clase \textbf{BTree} implementa varias funciones importantes:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{traverse}: Recorre el árbol imprimiendo los datos de cada nodo, comenzando desde la raíz. Si el nodo actual no es una hoja, la función recurre a sus hijos antes de imprimir sus claves.
+                    \item \textbf{search}: Busca una clave en el árbol. Si la raíz es \textbf{nullptr}, lo que indica que el árbol está vacío, la función retorna \textbf{nullptr}. Si la raíz existe, delega la búsqueda a la función \textbf{search} de los nodos.
+                    \item \textbf{searchAll}: Realiza una búsqueda en todo el árbol y recopila todas las instancias de una clave en un vector de resultados, dependiendo del criterio de búsqueda (ya sea por nombre del artista o por nombre de la pista).
+                    \item \textbf{insert}: Inserta una nueva canción en el árbol. Si la raíz está vacía, crea un nuevo nodo raíz con la canción, pero si la raíz ya está llena, se divide en dos nodos, y luego se inserta la canción en el nodo adecuado.
+                \end{itemize}
+            
+            \subsubsection{Desarrollando la Clase BTreeNode}
+                
+                \noindent\hspace{4em}Recordemos que la clase \textbf{BTreeNode} representa un nodo del árbol y contiene varias claves \textbf{keys}, hijos \textbf{children}, y un indicador \textbf{isLeaf} que señala si el nodo es una hoja. Esta clase también tiene funciones importantes para manejar el nodo:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{Constructor}: Inicializa el valor de \textbf{t}, establece si el nodo es una hoja y reserva espacio para las claves y los hijos.
+                    \item \textbf{traverse}: Recorre el nodo y sus hijos, imprimiendo las claves almacenadas. Si el nodo no es una hoja, también recurre a sus hijos.
+                    \item \textbf{search}: Busca una clave dentro del nodo actual, comparando las claves de los nodos hijos. Si la clave se encuentra en el nodo, la función retorna el nodo; de lo contrario, la búsqueda continúa en el hijo correspondiente.
+                    \item \textbf{searchAll}: Realiza una búsqueda recursiva para encontrar todas las instancias de una clave en el árbol. Compara la clave con las claves de los nodos hijos y agrega todas las canciones que coinciden en el vector de resultados.
+                    \item \textbf{insertNonFull}: Maneja la inserción de una clave en un nodo que no está lleno, asegurándose de que las claves se mantengan ordenadas. Si el nodo no es una hoja, primero recurre al hijo adecuado antes de insertar la clave. Si el nodo es una hoja, la clave se inserta directamente en la posición correcta.
+                \end{itemize}
+            
+            \subsubsection{Función splitChild}
+            
+                \noindent\hspace*{4em}La función \textbf{splitChild} maneja la división de un nodo lleno. Cuando un nodo tiene más claves de las que puede almacenar (es decir, cuando el número de claves alcanza \textbf{2 * t - 1}), se divide en dos nodos. La clave del medio del nodo original se mueve hacia el nodo padre, y el nodo original se divide en dos partes, creando un nuevo nodo. Si el nodo no es una hoja, los hijos también se dividen.
+            
+            \subsection{cancion.h}
+
+            \begin{lstlisting}[language=C, style=mystyle, caption={Cabecera de la Clase Canción}]
+#ifndef CANCION_H
+#define CANCION_H
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+class Cancion {
+public:
+    int id;
+    string artist_name;
+    string track_name;
+    string track_id;
+    int popularity;
+    int year;
+    string genre;
+    double danceability;
+    double energy;
+    int key;
+    double loudness;
+    int mode;
+    double speechiness;
+    double acousticness;
+    double instrumentalness;
+    double liveness;
+    double valence;
+    double tempo;
+    int duration_ms;
+    int time_signature;
+
+    Cancion() : id(0), popularity(0), year(0), danceability(0.0), energy(0.0), key(0), loudness(0.0), mode(0), speechiness(0.0), acousticness(0.0), instrumentalness(0.0), liveness(0.0), valence(0.0), tempo(0.0), duration_ms(0), time_signature(0) {}
+
+    Cancion(int id, string artist_name, string track_name, string track_id, int popularity, int year,
+                 string genre, double danceability, double energy, int key, double loudness, int mode,
+                 double speechiness, double acousticness, double instrumentalness, double liveness,
+                 double valence, double tempo, int duration_ms, int time_signature);
+
+    void imprimirDatos();
+    void reproducirCancion();
+};
+
+#endif // CANCION_H
+            \end{lstlisting}
+
+            \subsubsection{Introducción}
+            
+                \noindent\hspace*{4em}Este código define la cabecera de una clase \textbf{Cancion}, que se utiliza para representar una canción con varias propiedades musicales y de análisis de datos. La clase contiene atributos como el nombre del artista, el nombre de la pista, la popularidad, el año de lanzamiento, y diversos parámetros relacionados con las características de la canción, como la danza, energía, tono, entre otros. La cabecera también declara dos funciones principales: \textbf{imprimirDatos} y \textbf{reproducirCancion}.
+            
+            \subsubsection{Miembros de la clase}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} tiene varios atributos públicos que representan distintas características de una canción, incluyendo:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{id}: Identificador único de la canción.
+                    \item \textbf{artist\_name}: Nombre del artista o banda.
+                    \item \textbf{track\_name}: Nombre de la pista.
+                    \item \textbf{track\_id}: Identificador único de la pista.
+                    \item \textbf{popularity}: Popularidad de la canción en una escala.
+                    \item \textbf{year}: Año de lanzamiento de la canción.
+                    \item \textbf{genre}: Género musical de la canción.
+                    \item \textbf{danceability}: Índice de cuán fácil es bailar al ritmo de la canción.
+                    \item \textbf{energy}: Nivel de energía de la canción.
+                    \item \textbf{key}: Tono musical de la canción.
+                    \item \textbf{loudness}: Volumen de la canción en decibelios.
+                    \item \textbf{mode}: Modalidad de la canción (mayor o menor).
+                    \item \textbf{speechiness}: Proporción de habla en la canción.
+                    \item \textbf{acousticness}: Nivel de acusticidad de la canción.
+                    \item \textbf{instrumentalness}: Porcentaje de la canción que es instrumental.
+                    \item \textbf{liveness}: Proporción de audibilidad en un contexto en vivo.
+                    \item \textbf{valence}: Indicador del estado de ánimo de la canción.
+                    \item \textbf{tempo}: Tempo de la canción en beats por minuto.
+                    \item \textbf{duration\_ms}: Duración de la canción en milisegundos.
+                    \item \textbf{time\_signature}: Firma temporal de la canción (por ejemplo, 4/4).
+                \end{itemize}
+            
+            \subsubsection{Constructores}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} tiene dos constructores:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{Cancion()}: Constructor por defecto que inicializa todos los atributos con valores predeterminados. 
+                    \item \textbf{Cancion(int id, string artist\_name, string track\_name, string track\_id, int popularity, int year, string genre, double danceability, double energy, int key, double loudness, int mode, double speechiness, double acousticness, double instrumentalness, double liveness, double valence, double tempo, int duration\_ms, int time\_signature)}: Constructor que recibe parámetros específicos para inicializar los atributos de la canción con valores definidos al crear una instancia de la clase.
+                \end{itemize}
+            
+            \subsubsection{Funciones}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} declara las siguientes funciones:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{imprimirDatos()}: Función miembro que probablemente se encargará de imprimir la información de la canción en un formato legible.
+                    \item \textbf{reproducirCancion()}: Función miembro que probablemente se utilizará para reproducir la canción, aunque la implementación no está incluida en esta cabecera.
+                \end{itemize}
+            
+            \subsubsection{Conclusión}
+            
+            \noindent\hspace*{4em}La clase \textbf{Cancion} está diseñada para encapsular una serie de propiedades que describen una canción y sus características relacionadas. Esta estructura es útil para representar canciones en una aplicación o base de datos que maneje información musical, permitiendo fácilmente la manipulación y presentación de datos musicales.
+            \subsection{cancion.cpp}
+            \begin{lstlisting}[language=C++, style=mystyle, caption={Código de un Clase Canción}]
+#include "cancion.h"
+
+Cancion::Cancion(int id, string artist_name, string track_name, string track_id, int popularity, int year,
+                 string genre, double danceability, double energy, int key, double loudness, int mode,
+                 double speechiness, double acousticness, double instrumentalness, double liveness,
+                 double valence, double tempo, int duration_ms, int time_signature)
+    : id(id), artist_name(artist_name), track_name(track_name), track_id(track_id), popularity(popularity),
+      year(year), genre(genre), danceability(danceability), energy(energy), key(key), loudness(loudness),
+      mode(mode), speechiness(speechiness), acousticness(acousticness), instrumentalness(instrumentalness),
+      liveness(liveness), valence(valence), tempo(tempo), duration_ms(duration_ms), time_signature(time_signature) {}
+
+void Cancion::imprimirDatos() {
+    cout << "|" << setw(5) << this->id
+         << "|" << setw(30) << this->artist_name
+         << "|" << setw(30) << this->track_name
+         << "|" << setw(30) << this->track_id
+         << "|" << setw(5) << this->popularity
+         << "|" << setw(5) << this->year
+         << "|" << setw(10) << this->genre
+         << "|" << setw(5) << this->danceability
+         << "|" << setw(5) << this->energy
+         << "|" << setw(5) << this->key
+         << "|" << setw(5) << this->loudness
+         << "|" << setw(5) << this->mode
+         << "|" << setw(5) << this->speechiness
+         << "|" << setw(5) << this->acousticness
+         << "|" << setw(5) << this->instrumentalness
+         << "|" << setw(5) << this->liveness
+         << "|" << setw(5) << this->valence
+         << "|" << setw(5) << this->tempo
+         << "|" << setw(5) << this->duration_ms
+         << "|" << setw(5) << this->time_signature
+         << "|" << endl;
+}
+
+void Cancion::reproducirCancion() {
+    cout << "Reproduciendo: " << this->track_name << " - " << this->artist_name << endl;
+}
+            \end{lstlisting}
+
+            \subsubsection{Introducción}
+            
+                \noindent\hspace*{4em}Este código define la cabecera de una clase \textbf{Cancion}, que se utiliza para representar una canción con varias propiedades musicales y de análisis de datos. La clase contiene atributos como el nombre del artista, el nombre de la pista, la popularidad, el año de lanzamiento, y diversos parámetros relacionados con las características de la canción, como la danza, energía, tono, entre otros. La cabecera también declara dos funciones principales: \textbf{imprimirDatos} y \textbf{reproducirCancion}.
+            
+            \subsubsection{Miembros de la clase}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} tiene varios atributos públicos que representan distintas características de una canción, incluyendo:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{id}: Identificador único de la canción.
+                    \item \textbf{artist\_name}: Nombre del artista o banda.
+                    \item \textbf{track\_name}: Nombre de la pista.
+                    \item \textbf{track\_id}: Identificador único de la pista.
+                    \item \textbf{popularity}: Popularidad de la canción en una escala.
+                    \item \textbf{year}: Año de lanzamiento de la canción.
+                    \item \textbf{genre}: Género musical de la canción.
+                    \item \textbf{danceability}: Índice de cuán fácil es bailar al ritmo de la canción.
+                    \item \textbf{energy}: Nivel de energía de la canción.
+                    \item \textbf{key}: Tono musical de la canción.
+                    \item \textbf{loudness}: Volumen de la canción en decibelios.
+                    \item \textbf{mode}: Modalidad de la canción (mayor o menor).
+                    \item \textbf{speechiness}: Proporción de habla en la canción.
+                    \item \textbf{acousticness}: Nivel de acusticidad de la canción.
+                    \item \textbf{instrumentalness}: Porcentaje de la canción que es instrumental.
+                    \item \textbf{liveness}: Proporción de audibilidad en un contexto en vivo.
+                    \item \textbf{valence}: Indicador del estado de ánimo de la canción.
+                    \item \textbf{tempo}: Tempo de la canción en beats por minuto.
+                    \item \textbf{duration\_ms}: Duración de la canción en milisegundos.
+                    \item \textbf{time\_signature}: Firma temporal de la canción (por ejemplo, 4/4).
+                \end{itemize}
+            
+            \subsubsection{Constructores}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} tiene dos constructores:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{Cancion()}: Constructor por defecto que inicializa todos los atributos con valores predeterminados. 
+                    \item \textbf{Cancion(int id, string artist\_name, string track\_name, string track\_id, int popularity, int year, string genre, double danceability, double energy, int key, double loudness, int mode, double speechiness, double acousticness, double instrumentalness, double liveness, double valence, double tempo, int duration\_ms, int time\_signature)}: Constructor que recibe parámetros específicos para inicializar los atributos de la canción con valores definidos al crear una instancia de la clase.
+                \end{itemize}
+            
+            \subsubsection{Funciones}
+            
+                \noindent\hspace*{4em}La clase \textbf{Cancion} declara las siguientes funciones:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{imprimirDatos()}: Función miembro que probablemente se encargará de imprimir la información de la canción en un formato legible.
+                    \item \textbf{reproducirCancion()}: Función miembro que probablemente se utilizará para reproducir la canción, aunque la implementación no está incluida en esta cabecera.
+                \end{itemize}
+
+            \subsection{playlist.h}
+
+            \begin{lstlisting}[language=C, style=mystyle, caption={Cabecera de la Clase Playlist}]
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
+
+#include "cancion.h"
+#include "btree.h"
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <random>
+
+class PlayList {
+public:
+    BTree* btree;
+    std::vector<Cancion> todasLasCanciones; // Vector para almacenar todas las canciones
+
+    PlayList(int t);
+    ~PlayList();
+
+    void agregarCancion(Cancion& cancion);
+    vector<Cancion> buscarPorNombre(const std::string& nombre, bool searchByArtist);
+    void cargarCSV(const std::string& nombre_archivo);
+    void imprimirCanciones();
+    void ordenarPorAtributo(const std::string& atributo);
+    Cancion reproduccionAleatoria();
+    bool actualizarCancion(int id, const Cancion& nuevaCancion);
+};
+
+#endif // PLAYLIST_H
+            \end{lstlisting}
+            \subsubsection{Introducción}
+            
+                \noindent\hspace*{4em}Este código define la cabecera de la clase \textbf{PlayList}, que gestiona una lista de canciones, almacenando las canciones en un \textit{Árbol B} y un vector. La clase ofrece varias funciones para agregar canciones, buscar canciones por nombre, cargar canciones desde un archivo CSV, imprimir las canciones almacenadas, ordenarlas según un atributo específico, y realizar la reproducción aleatoria de canciones. También incluye una función para actualizar la información de una canción existente.
+            
+            \subsubsection{Atributos}
+            
+                \noindent\hspace*{4em}La clase \textbf{PlayList} tiene los siguientes atributos principales:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{btree}: Un puntero a un objeto de la clase \textbf{BTree} que organiza las canciones en un árbol para facilitar las búsquedas y otras operaciones.
+                    \item \textbf{todasLasCanciones}: Un vector de objetos \textbf{Cancion} que almacena todas las canciones de la lista de reproducción.
+                \end{itemize}
+            
+            \subsubsection{Constructor y Destructor}
+            
+                \noindent\hspace*{4em}La clase \textbf{PlayList} tiene un constructor y un destructor:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{PlayList(int t)}: El constructor toma un parámetro \textbf{t}, que representa el grado mínimo del \textit{Árbol B} (\textbf{BTree}) utilizado para almacenar las canciones. Inicializa el puntero \textbf{btree} y crea el vector \textbf{todasLasCanciones}.
+                    \item \textbf{~PlayList()}: El destructor se encarga de liberar cualquier recurso utilizado por la clase, como el puntero \textbf{btree}.
+                \end{itemize}
+            
+            \subsubsection{Funciones}
+            
+                \noindent\hspace*{4em}La clase \textbf{PlayList} proporciona las siguientes funciones miembros:
+                
+                \begin{itemize}[left=4em]
+                    \item \textbf{agregarCancion(Cancion\& cancion)}: Esta función agrega una canción al vector \textbf{todasLasCanciones} y a la estructura del \textit{Árbol B} (\textbf{btree}).
+                    \item \textbf{buscarPorNombre(const std::string\& nombre, bool searchByArtist)}: Permite buscar canciones en la lista de reproducción por nombre, ya sea por el nombre del artista o por el nombre de la pista.
+                    \item \textbf{cargarCSV(const std::string\& nombre\_archivo)}: Carga las canciones desde un archivo CSV, parseando el contenido del archivo y agregando las canciones a la lista y al \textit{Árbol B}.
+                    \item \textbf{imprimirCanciones()}: Imprime la lista de todas las canciones almacenadas en el vector \textbf{todasLasCanciones}.
+                    \item \textbf{ordenarPorAtributo(const std::string\& atributo)}: Ordena las canciones de la lista de reproducción por un atributo específico, como el nombre, la popularidad o el año.
+                    \item \textbf{reproduccionAleatoria()}: Devuelve una canción aleatoria de la lista de reproducción.
+                    \item \textbf{actualizarCancion(int id, const Cancion\& nuevaCancion)}: Actualiza los detalles de una canción existente, identificada por su \textbf{id}, con la nueva información proporcionada en \textbf{nuevaCancion}.
+                \end{itemize}
+            
+            \subsection{playlist.cpp}
+            \begin{lstlisting}[language=C++, style=mystyle, caption={Código de la Clase Playlist}]
+// playlist.cpp
+#include "playlist.h"
+#include <iostream>
+#include <algorithm>
+#include <execution> 
+
+PlayList::PlayList(int t) {
+    btree = new BTree(t);
+}
+
+PlayList::~PlayList() {
+    delete btree;
+}
+
+void PlayList::agregarCancion(Cancion& cancion) {
+    btree->insert(cancion);
+    todasLasCanciones.push_back(cancion); // Añadir la canción al vector
+}
+
+vector<Cancion> PlayList::buscarPorNombre(const std::string& nombre, bool searchByArtist) {
+    vector<Cancion> resultados;
+    btree->searchAll(nombre, searchByArtist, resultados);
+    return resultados;
+}
+
+void PlayList::cargarCSV(const std::string& nombre_archivo) {
+    ifstream archivo(nombre_archivo);
+    if (!archivo.is_open()) {
+        cerr << "No se pudo abrir el archivo " << nombre_archivo << endl;
+        return;
+    }
+
+    string linea;
+    getline(archivo, linea);  // Leer la cabecera del CSV
+    while (getline(archivo, linea)) {
+        stringstream ss(linea);
+        string token;
+
+        auto leerCampo = [&ss]() {
+            string campo;
+            char ch;
+            bool dentroComillas = false;
+
+            while (ss.get(ch)) {
+                if (ch == '"' && !dentroComillas) {
+                    dentroComillas = true;
+                } else if (ch == '"' && dentroComillas) {
+                    if (ss.peek() == ',') {
+                        ss.get();
+                        break;
+                    }
+                    dentroComillas = false;
+                } else if (ch == ',' && !dentroComillas) {
+                    break;
+                } else {
+                    campo += ch;
+                }
+            }
+            return campo;
+        };
+
+        int id = stoi(leerCampo());
+        string artist_name = leerCampo();
+        string track_name = leerCampo();
+        string track_id = leerCampo();
+        int popularity = stoi(leerCampo());
+        int year = stoi(leerCampo());
+        string genre = leerCampo();
+        double danceability = stod(leerCampo());
+        double energy = stod(leerCampo());
+        int key = stoi(leerCampo());
+        double loudness = stod(leerCampo());
+        int mode = stoi(leerCampo());
+        double speechiness = stod(leerCampo());
+        double acousticness = stod(leerCampo());
+        double instrumentalness = stod(leerCampo());
+        double liveness = stod(leerCampo());
+        double valence = stod(leerCampo());
+        double tempo = stod(leerCampo());
+        int duration_ms = stoi(leerCampo());
+        int time_signature = stoi(leerCampo());
+
+        Cancion cancion(id, artist_name, track_name, track_id, popularity, year, genre, danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms, time_signature);
+        agregarCancion(cancion);
+    }
+
+    archivo.close();
+}
+
+void PlayList::imprimirCanciones() {
+    btree->traverse();
+}
+
+void PlayList::ordenarPorAtributo(const std::string& atributo) {
+    auto comparar = [&atributo](const Cancion& a, const Cancion& b) {
+        if (atributo == "popularidad") {
+            return a.popularity < b.popularity;
+        } else if (atributo == "anio") {
+            return a.year < b.year;
+        } else if (atributo == "artista") {
+            return a.artist_name < b.artist_name;
+        } else if (atributo == "cancion") {
+            return a.track_name < b.track_name;
+        } else if (atributo == "genero") {
+            return a.genre < b.genre;
+        } else if (atributo == "duracion") {
+            return a.duration_ms < b.duration_ms;
+        } else if (atributo == "tempo") {
+            return a.tempo < b.tempo;
+        }
+        return false;
+    };
+
+    sort(std::execution::par,todasLasCanciones.begin(), todasLasCanciones.end(), comparar);
+
+    cout << "Canciones después de ordenar por " << atributo << ":" << endl;
+    for (const auto& cancion : todasLasCanciones) {
+        if (atributo == "popularidad") {
+            cout << cancion.popularity << " - " << cancion.track_name << endl;
+        } else if (atributo == "anio") {
+            cout << cancion.year << " - " << cancion.track_name << endl;
+        } else if (atributo == "artista") {
+            cout << cancion.artist_name << " - " << cancion.track_name << endl;
+        } else if (atributo == "cancion") {
+            cout << cancion.track_name << endl;
+        } else if (atributo == "genero") {
+            cout << cancion.genre << " - " << cancion.track_name << endl;
+        } else if (atributo == "duracion") {
+            cout << cancion.duration_ms << " ms - " << cancion.track_name << endl;
+        } else if (atributo == "tempo") {
+            cout << cancion.tempo << " - " << cancion.track_name << endl;
+        }
+    }
+}
+
+Cancion PlayList::reproduccionAleatoria() {
+    if (todasLasCanciones.empty()) {
+        cout << "No hay canciones en la lista de reproducción." << endl;
+        return Cancion(); // Devolver una canción por defecto
+    }
+
+    static bool seeded = false;
+    if (!seeded) {
+        srand(time(0));
+        seeded = true;
+    }
+
+    int indiceAleatorio = rand() % todasLasCanciones.size();
+    todasLasCanciones[indiceAleatorio].reproducirCancion();
+    return todasLasCanciones[indiceAleatorio];
+}
+
+bool PlayList::actualizarCancion(int id, const Cancion& nuevaCancion) {
+    for (auto it = todasLasCanciones.begin(); it != todasLasCanciones.end(); ++it) {
+        if (it->id == id) {
+            *it = nuevaCancion; // Actualizar la canción en el vector
+            btree->insert(nuevaCancion); // Insertar la nueva versión de la canción en el B-Tree
+            return true;
+        }
+    }
+    return false;
+}
+            \end{lstlisting}
+
+            \subsubsection{Introducción}
+
+                \noindent\hspace*{4em}Este archivo implementa las funciones definidas en la cabecera \textbf{playlist.h}. Estas funciones gestionan una lista de reproducción de canciones, integrando las funcionalidades de un \textit{Árbol B} (\textbf{BTree}) y un vector para optimizar el almacenamiento y las operaciones de búsqueda, ordenación, carga desde un archivo CSV, y reproducción aleatoria.
+                
+            \subsubsection{Funciones Implementadas}
+            
+                \noindent\hspace*{4em}Se explican las funciones de la clase \textbf{PlayList} en detalle:
+                
+                \begin{itemize}[left=4em]
+                
+                    \item \textbf{PlayList(int t)}: Constructor que inicializa el puntero \textbf{btree} como un nuevo \textit{Árbol B} de grado \textbf{t}.
+                    
+                    \item \textbf{\textasciitilde PlayList()}: Destructor que libera la memoria asignada para el \textit{Árbol B} (\textbf{btree}).
+                
+                    \item \textbf{agregarCancion(Cancion\& cancion)}: Agrega una canción al vector \textbf{todasLasCanciones} y la inserta en el \textit{Árbol B}.
+                    
+                    \item \textbf{buscarPorNombre(const std::string\& nombre, bool searchByArtist)}: Realiza una búsqueda de canciones en el \textit{Árbol B}, filtrando por nombre de la pista o del artista según el valor de \textbf{searchByArtist}, y devuelve un vector con los resultados.
+                
+                    \item \textbf{cargarCSV(const std::string\& nombre\_archivo)}: Carga canciones desde un archivo CSV. Lee cada línea, extrae los campos utilizando un método que maneja comillas y separadores, y crea objetos \textbf{Cancion} que se añaden a la lista de reproducción.
+                
+                    \item \textbf{imprimirCanciones()}: Recorre el \textit{Árbol B} y muestra las canciones almacenadas, aprovechando su capacidad de ordenamiento.
+                
+                    \item \textbf{ordenarPorAtributo(const std::string\& atributo)}: Ordena las canciones del vector \textbf{todasLasCanciones} según un atributo especificado. La comparación se realiza mediante un \textbf{lambda}, y el ordenamiento se optimiza usando \textbf{std::execution::par} para paralelismo.
+                
+                    \item \textbf{reproduccionAleatoria()}: Selecciona una canción aleatoria del vector \textbf{todasLasCanciones}, asegurando un comportamiento aleatorio con una semilla única. Si la lista está vacía, retorna un objeto \textbf{Cancion} por defecto.
+                
+                    \item \textbf{actualizarCancion(int id, const Cancion\& nuevaCancion)}: Busca una canción en el vector por su \textbf{id}. Si la encuentra, la actualiza y la reinserta en el \textit{Árbol B} con los nuevos datos.
+                \end{itemize}
+            
+            \subsubsection{Aspectos Clave}
+            
+                \begin{itemize}[left=4em]
+                
+                    \item \textbf{Uso del \textit{Árbol B}}: Optimiza las búsquedas al almacenar las canciones de forma ordenada, permitiendo búsquedas eficientes.
+                    
+                    \item \textbf{Carga desde CSV}: Maneja correctamente campos con comillas o separadores dentro de los datos, asegurando la integridad de la información cargada.
+                    
+                    \item \textbf{Ordenamiento Paralelo}: La función de ordenación aprovecha la biblioteca \textbf{std::execution} para realizar operaciones más rápidas en procesadores multinúcleo.
+                    
+                    \item \textbf{Reproducción Aleatoria}: Utiliza una semilla única para garantizar un comportamiento aleatorio consistente en diferentes ejecuciones.
+                    
+                    \item \textbf{Actualización de Canciones}: Garantiza que las modificaciones a una canción se reflejen tanto en el vector como en el \textit{Árbol B}, preservando la sincronización de los datos.
+                \end{itemize}
+            
+    
+                
+                
+            \subsection{menu.h}
+            
+            \begin{lstlisting}[language=C, style=mystyle, caption={Cabecera de la Clae Menú}]
+#include "playlist.h"
+#include <iostream>
+#include <chrono>
+
+using namespace std;
+
+class Menu {
+public:
+    PlayList playlist;
+    Menu() : playlist(5) {
+        cout << "Inicializando menú y cargando lista de reproducción..." << endl;
+    }
+
+    // Destructor
+    ~Menu() {
+        cout << "Liberando recursos y cerrando el menú..." << endl;
+    }
+    void lectura_csv();
+    void interfaz_menu();
+    void menu_busqueda(int numero_opcion);
+    void menu_ordenamiento(int numero_opcion);
+    void menu_reproduccion_aleatoria(int numero_opcion);
+    void menu_impresion(int numero_opcion);
+    void menu_actualizar_cancion(int numero_opcion);
+};   
+            \end{lstlisting}
+
+            \subsection{menu.cpp}
+            
+            \begin{lstlisting}[language=C++, style=mystyle, caption={Cabecera de la Clase Menú}]
+#include "menu.h"
+#include <iostream>
+
+//menú principal
+
+void Menu::lectura_csv(){
+    // =============================== LECTURA DEL CSV ===============================
+    cout << "Leyendo datos desde archivo CSV..." << endl;
+    auto inicioLectura = chrono::high_resolution_clock::now();
+    
+    playlist.cargarCSV("spotify_data.csv");
+
+    auto finLectura = chrono::high_resolution_clock::now();
+    auto duracionLectura = chrono::duration_cast<chrono::seconds>(finLectura - inicioLectura).count();
+    cout << "Archivo cargado en " << duracionLectura << " segundos." << endl; 
+}
+
+void Menu::interfaz_menu() {
+    int numero_opcion = 0;
+    Menu::lectura_csv();
+    // Bucle infinito para mantener el menú en ejecución hasta que el usuario elija salir
+    while (numero_opcion != 5) {
+        cout << "\nSeleccione una opción: " << endl;
+        cout << "[1] Búsqueda" << endl;
+        cout << "[2] Ordenamiento" << endl;
+        cout << "[3] Reproducción Aleatoria" << endl;
+        cout << "[4] Impresión" << endl;
+        cout << "[5] Salir \n>> ";  // Opción para salir
+        cin >> numero_opcion;
+        cout << "\n";
+        // Ejecuta la acción según la opción seleccionada
+        if (numero_opcion == 1) {
+            menu_busqueda(numero_opcion);
+        }
+        else if (numero_opcion == 2) {
+            menu_ordenamiento(numero_opcion);
+        }
+        else if (numero_opcion == 3) {
+            menu_reproduccion_aleatoria(numero_opcion);
+        }
+        else if (numero_opcion == 4) {
+            playlist.imprimirCanciones();
+        }
+        else if (numero_opcion == 5) {
+            cout << "Saliendo del menú..." << endl;
+            break;  // Sale del bucle y termina el programa
+        }
+        else {
+            cout << "Opción no válida." << endl;
+        }
+    }
+}
+
+void Menu::menu_busqueda(int numero_opcion) {
+    cout << "Seleccione un tipo de Búsqueda: " << endl;
+    cout << "[1] Por Nombre de Canción" << endl;
+    cout << "[2] Por Nombre de Artista" << endl;
+    cout << "[3] Salir" << endl;
+    cin >> numero_opcion;
+
+    string nombreBusqueda;
+    vector<Cancion> resultados;
+
+    switch (numero_opcion) {
+        case 1:
+            cout << "Ingrese el nombre de la canción: ";
+            cin.ignore();
+            getline(cin, nombreBusqueda);
+            resultados = playlist.buscarPorNombre(nombreBusqueda, false);
+            if (!resultados.empty()) {
+                for (auto& cancion : resultados) {
+                    cancion.imprimirDatos();
+                }
+            } else {
+                cout << "No se encontró ninguna canción con el nombre " << nombreBusqueda << ".\n";
+            }
+            break;
+        case 2:
+            cout << "Ingrese el nombre del artista: ";
+            cin.ignore();
+            getline(cin, nombreBusqueda);
+            resultados = playlist.buscarPorNombre(nombreBusqueda, true);
+            if (!resultados.empty()) {
+                for (auto& cancion : resultados) {
+                    cancion.imprimirDatos();
+                }
+            } else {
+                cout << "No se encontró ningún artista con el nombre " << nombreBusqueda << ".\n";
+            }
+            break;
+        case 3:
+            break;
+        default:
+            cout << "Opción no válida." << endl;
+            break;
+    }
+}
+
+void Menu::menu_ordenamiento(int numero_opcion) {
+    cout << "Seleccione un tipo de Ordenamiento: " << endl;
+    cout << "[1] Por Popularidad" << endl;
+    cout << "[2] Por Año" << endl;
+    cout << "[3] Por Nombre del Artista" << endl;
+    cout << "[4] Por Nombre de la Canción" << endl;
+    cout << "[5] Por Género" << endl;
+    cout << "[6] Por Duración" << endl;
+    cout << "[7] Por Tempo" << endl;
+    cout << "[8] Salir" << endl;
+    cin >> numero_opcion;
+
+    switch (numero_opcion) {
+        case 1:
+            playlist.ordenarPorAtributo("popularidad");
+            break;
+        case 2:
+            playlist.ordenarPorAtributo("anio");
+            break;
+        case 3:
+            playlist.ordenarPorAtributo("artista");
+            break;
+        case 4:
+            playlist.ordenarPorAtributo("cancion");
+            break;
+        case 5:
+            playlist.ordenarPorAtributo("genero");
+            break;
+        case 6:
+            playlist.ordenarPorAtributo("duracion");
+            break;
+        case 7:
+            playlist.ordenarPorAtributo("tempo");
+            break;
+        case 8:
+            break;
+        default:
+            cout << "Opción no válida." << endl;
+            break;
+    }
+}
+
+void Menu::menu_reproduccion_aleatoria(int numero_opcion){
+    // =============================== REPRODUCCIÓN ALEATORIA ===============================
+    cout << "\nReproduciendo canción aleatoria..." << endl;
+    playlist.reproduccionAleatoria();
+} 
+
+void Menu::menu_actualizar_cancion(int numero_opcion) {
+    int idActualizacion;
+    cout << "Ingrese el ID de la canción a actualizar: ";
+    cin >> idActualizacion;
+
+    BTreeNode* nodo = playlist.btree->search(to_string(idActualizacion), false);
+    Cancion* cancion = nullptr;
+
+    if (nodo) {
+        for (auto& c : nodo->keys) {
+            if (c.id == idActualizacion) {
+                cancion = &c;
+                break;
+            }
+        }
+    }
+
+    if (!cancion) {
+        cout << "No se encontró una canción con el ID " << idActualizacion << " para actualizar.\n";
+        return;
+    }
+
+    int opcion;
+    do {
+        cout << "\nSeleccione el atributo a modificar: " << endl;
+        cout << "[1] Nombre del Artista" << endl;
+        cout << "[2] Nombre de la Canción" << endl;
+        cout << "[3] ID del Track" << endl;
+        cout << "[4] Popularidad" << endl;
+        cout << "[5] Año" << endl;
+        cout << "[6] Género" << endl;
+        cout << "[7] Danceability" << endl;
+        cout << "[8] Energy" << endl;
+        cout << "[9] Key" << endl;
+        cout << "[10] Loudness" << endl;
+        cout << "[11] Mode" << endl;
+        cout << "[12] Speechiness" << endl;
+        cout << "[13] Acousticness" << endl;
+        cout << "[14] Instrumentalness" << endl;
+        cout << "[15] Liveness" << endl;
+        cout << "[16] Valence" << endl;
+        cout << "[17] Tempo" << endl;
+        cout << "[18] Duración en ms" << endl;
+        cout << "[19] Time Signature" << endl;
+        cout << "[20] Salir" << endl;
+        cout << ">> ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                cout << "Ingrese el nuevo nombre del artista: ";
+                cin.ignore();
+                getline(cin, cancion->artist_name);
+                break;
+            case 2:
+                cout << "Ingrese el nuevo nombre de la canción: ";
+                cin.ignore();
+                getline(cin, cancion->track_name);
+                break;
+            case 3:
+                cout << "Ingrese el nuevo ID del track: ";
+                cin.ignore();
+                getline(cin, cancion->track_id);
+                break;
+            case 4:
+                cout << "Ingrese la nueva popularidad: ";
+                cin >> cancion->popularity;
+                break;
+            case 5:
+                cout << "Ingrese el nuevo año: ";
+                cin >> cancion->year;
+                break;
+            case 6:
+                cout << "Ingrese el nuevo género: ";
+                cin.ignore();
+                getline(cin, cancion->genre);
+                break;
+            case 7:
+                cout << "Ingrese la nueva danceability: ";
+                cin >> cancion->danceability;
+                break;
+            case 8:
+                cout << "Ingrese la nueva energy: ";
+                cin >> cancion->energy;
+                break;
+            case 9:
+                cout << "Ingrese el nuevo key: ";
+                cin >> cancion->key;
+                break;
+            case 10:
+                cout << "Ingrese el nuevo loudness: ";
+                cin >> cancion->loudness;
+                break;
+            case 11:
+                cout << "Ingrese el nuevo mode: ";
+                cin >> cancion->mode;
+                break;
+            case 12:
+                cout << "Ingrese la nueva speechiness: ";
+                cin >> cancion->speechiness;
+                break;
+            case 13:
+                cout << "Ingrese la nueva acousticness: ";
+                cin >> cancion->acousticness;
+                break;
+            case 14:
+                cout << "Ingrese la nueva instrumentalness: ";
+                cin >> cancion->instrumentalness;
+                break;
+            case 15:
+                cout << "Ingrese la nueva liveness: ";
+                cin >> cancion->liveness;
+                break;
+            case 16:
+                cout << "Ingrese la nueva valence: ";
+                cin >> cancion->valence;
+                break;
+            case 17:
+                cout << "Ingrese el nuevo tempo: ";
+                cin >> cancion->tempo;
+                break;
+            case 18:
+                cout << "Ingrese la nueva duración en ms: ";
+                cin >> cancion->duration_ms;
+                break;
+            case 19:
+                cout << "Ingrese el nuevo time signature: ";
+                cin >> cancion->time_signature;
+                break;
+            case 20:
+                cout << "Saliendo de la actualización de canción..." << endl;
+                break;
+            default:
+                cout << "Opción no válida." << endl;
+                break;
+        }
+    } while (opcion != 20);
+
+    cout << "Canción actualizada:\n";
+    cancion->imprimirDatos();
+}
+            \end{lstlisting}
+    
+            \subsection{main.cpp}
+
+            \begin{lstlisting}[language=C++, style=mystyle, caption={Código del main}]
+#include "menu.h"
+#include <iostream>
+using namespace std;
+
+int main() {
+    Menu menu;
+    menu.interfaz_menu();
+    return 0;
+}
+            \end{lstlisting}
+
+        \noindent\hspace*{4em}Este archivo contiene la función \textbf{main}, el punto de entrada de la aplicación. Esencialmente, su propósito es inicializar el menú principal e invocar la interfaz interactiva para que el usuario pueda gestionar la lista de reproducción de canciones.
+
+        \subsubsection{Descripción de la Función \texttt{main}}
+        
+            \begin{itemize}[left=4em]
+                \item \textbf{Inicialización del Objeto Menu}: 
+                \begin{itemize}
+                    \item Se crea un objeto de la clase \textbf{Menu}, definido en el archivo \textbf{menu.h}.
+                    \item Este objeto representa la lógica de interacción con el usuario y contiene las funcionalidades necesarias para navegar por el programa.
+                \end{itemize}
+            
+                \item \textbf{Llamada a \texttt{interfaz\_menu()}}:
+                \begin{itemize}
+                    \item La función \texttt{interfaz\_menu()} es invocada sobre el objeto \textbf{menu}.
+                    \item Su objetivo es presentar las opciones del programa al usuario y gestionar las entradas para realizar acciones como agregar canciones, buscar, ordenar, o reproducir aleatoriamente.
+                \end{itemize}
+            
+                \item \textbf{Terminación del Programa}:
+                \begin{itemize}
+                    \item La función retorna 0 al sistema operativo, indicando que la ejecución del programa se realizó exitosamente.
+                \end{itemize}
+            \end{itemize}
+        
+        \subsubsection{Aspectos Clave}
+        
+            \begin{itemize}[left=4em]
+                \item \textbf{Modularidad}: La clase \textbf{Menu} encapsula la lógica de interacción con el usuario, separando las responsabilidades de la función \textbf{main}, lo que mejora la claridad y mantenibilidad del código.
+                \item \textbf{Punto de Entrada Único}: El uso de una función \textbf{main} simple permite que el programa sea fácil de comprender y extender en el futuro.
+            \end{itemize}
+                
+        \section{Qt Creator: Entorno ideal para nuestro Frontend}
+        \noindent\hspace*{4em}Qt Creator es una herramienta destacada para el desarrollo de interfaces de usuario debido a su combinación de características, facilidad de uso y flexibilidad. Proporciona un entorno de desarrollo integrado (IDE) diseñado específicamente para trabajar con Qt, un marco de trabajo ampliamente utilizado para crear aplicaciones gráficas multiplataforma. Uno de los aspectos más valiosos de Qt Creator es su diseñador visual, que permite a los desarrolladores crear interfaces gráficas de manera intuitiva mediante un sistema de arrastrar y soltar, lo que acelera significativamente el proceso de diseño. Además, las interfaces creadas se integran directamente con el código subyacente, lo que simplifica la conexión entre la lógica de la aplicación y su presentación gráfica.
+
+        \noindent\hspace*{4em}Otra ventaja importante es que Qt Creator soporta múltiples lenguajes de programación, siendo C++ el principal, pero también permite el uso de QML, un lenguaje declarativo diseñado específicamente para interfaces de usuario modernas y fluidas. Esto da a los desarrolladores la capacidad de trabajar con herramientas avanzadas para crear aplicaciones visualmente atractivas y altamente responsivas.
+
+        \noindent\hspace*{4em}La herramienta también se destaca por su capacidad multiplataforma, lo que permite diseñar una interfaz en un sistema operativo y ejecutarla sin cambios en otros como Windows, macOS, Linux, e incluso en dispositivos móviles con Android o iOS. Esto hace que Qt Creator sea ideal para proyectos que necesitan ser distribuidos en múltiples entornos.
+
+        \noindent\hspace*{4em}Otra razón por la que es considerada una buena herramienta es su documentación extensa y su comunidad activa. Esto facilita encontrar soluciones a problemas comunes y aprender a utilizar sus funcionalidades de manera eficiente. Además, Qt Creator incluye características como autocompletado de código, integración con control de versiones, depuración avanzada y herramientas de análisis de rendimiento, que contribuyen a un flujo de trabajo más rápido y eficiente.
+
+        \noindent\hspace*{4em}Por último, su capacidad para manejar proyectos complejos y su compatibilidad con estándares modernos lo convierten en una elección sólida tanto para desarrolladores individuales como para equipos de desarrollo que buscan crear aplicaciones profesionales con interfaces de usuario de alta calidad.
+    
+    \end{flushleft}
+    
+\end{document}

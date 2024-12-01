@@ -12,8 +12,7 @@ class PlayList {
 public:
     BTree* btree;
     std::vector<Cancion> todasLasCanciones; // Vector para almacenar todas las canciones
-
-    PlayList(int t);
+    PlayList(int t, const::string& name);
     ~PlayList();
 
     void agregarCancion(Cancion& cancion);
@@ -21,7 +20,7 @@ public:
     void cargarCSV(const std::string& nombre_archivo);
     void imprimirCanciones();
     void ordenarPorAtributo(const std::string& atributo);
-    Cancion reproduccionAleatoria();
+    void reproduccionAleatoria();
     bool actualizarCancion(int id, const Cancion& nuevaCancion);
 };
 
