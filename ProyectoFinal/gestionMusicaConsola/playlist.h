@@ -3,6 +3,7 @@
 
 #include "cancion.h"
 #include "btree.h"
+#include "trie.h"
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -11,7 +12,10 @@
 class PlayList {
 public:
     BTree* btree;
-    std::vector<Cancion> todasLasCanciones; // Vector para almacenar todas las canciones
+    std::vector<Cancion> todasLasCanciones;
+    Trie cancionesTrie;
+    Trie artistasTrie;
+
     PlayList(int t);
     ~PlayList();
 
@@ -20,7 +24,7 @@ public:
     void cargarCSV(const std::string& nombre_archivo);
     void imprimirCanciones();
     void ordenarPorAtributo(const std::string& atributo);
-    void reproduccionAleatoria();
+    Cancion reproduccionAleatoria();
     bool actualizarCancion(int id, const Cancion& nuevaCancion);
 };
 

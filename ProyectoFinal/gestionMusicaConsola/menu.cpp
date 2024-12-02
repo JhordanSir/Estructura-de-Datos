@@ -8,124 +8,42 @@ void Menu::lectura_csv(){
     cout << "Leyendo datos desde archivo CSV..." << endl;
     auto inicioLectura = chrono::high_resolution_clock::now();
     
-    playlist.cargarCSV("spotify_data.csv");
-    std::string name = "matriz";
-    mapadeplaylists.LlenarMapaDePlaylist(playlist, name);
+    playlist.cargarCSV("Pruebas.csv");
+
     auto finLectura = chrono::high_resolution_clock::now();
     auto duracionLectura = chrono::duration_cast<chrono::seconds>(finLectura - inicioLectura).count();
     cout << "Archivo cargado en " << duracionLectura << " segundos." << endl; 
 }
 
-void Menu::matriz_menu() {
+void Menu::interfaz_menu() {
     int numero_opcion = 0;
-    
     Menu::lectura_csv();
-    
-    while (numero_opcion != 4) {
-        cout << "\nSeleccione una opción: " << endl;
-        cout << "[1] Usar Playlist Base" << endl;
-        cout << "[2] Crear una nueva Playlist" << endl;
-        cout << "[3] Seleccionar Playlist" << endl;
-        cout << "[4] Salir" << endl;
-        cin >> numero_opcion;
-        cout << "\n";
-
-        // Manejo de las opciones
-        if (numero_opcion == 1) {
-            interfaz_menu(playlist);
-        }
-        else if (numero_opcion == 2) {
-            menu_nueva_playlist();
-        }
-        else if (numero_opcion == 3) {
-            menu_seleccion_playlist();
-        }
-        else if (numero_opcion == 4) {
-            break;
-        }
-        else {
-            cout << "Opción no válida\n";
-        }
-    }
-}
-
-void Menu::menu_nueva_playlist() {
-    string nombre_playlist;
-    cout << "Ingrese el nombre de la playlist\n";
-    cin >> nombre_playlist;
-    
-    PlayList nueva_playlist(5);
-    mapadeplaylists.LlenarMapaDePlaylist(nueva_playlist, nombre_playlist);  
-}
-
-void Menu::menu_seleccion_playlist() {
-    cout << "Seleccione una PlayList de su preferencia\n";
-
-    if (mapadeplaylists.mapadeplaylists.empty()) {
-        cout << "No hay playlists creadas aún.\n";
-        return;
-    }
-
-    int index = 1;
-    for (const auto& pair : mapadeplaylists.mapadeplaylists) {
-        cout << index++ << ". " << pair.first << endl;
-    }
-    
-    int seleccion = 0;
-    bool seleccionValida = false;
-    
-    while (!seleccionValida) {
-        cout << "Ingrese el número de la playlist que desea seleccionar: ";
-        cin >> seleccion;
-
-        if (cin.fail() || seleccion <= 0 || seleccion > index - 1) {
-            cout << "Selección no válida. Por favor, ingrese un número entre 1 y " << index - 1 << ".\n";
-            cin.clear();  
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  
-        } else {
-            seleccionValida = true;
-        }
-    }
-    auto it = mapadeplaylists.mapadeplaylists.begin();
-    std::advance(it, seleccion - 1);
-    std::string nombrePlaylistSeleccionada = it->first;
-    try {
-        PlayList& playlistSeleccionada = mapadeplaylists.obtenerPlaylist(nombrePlaylistSeleccionada);
-        cout << "Playlist seleccionada: " << nombrePlaylistSeleccionada << endl;
-        interfaz_menu(playlistSeleccionada);
-        
-    } catch (const std::out_of_range& e) {
-        cout << "Error: " << e.what() << endl;
-    }
-}
-
-void Menu::interfaz_menu(PlayList& playlistSeleccionada) {
-    int numero_opcion = 0;
-
+    // Bucle infinito para mantener el menú en ejecución hasta que el usuario elija salir
     while (numero_opcion != 5) {
         cout << "\nSeleccione una opción: " << endl;
         cout << "[1] Búsqueda" << endl;
         cout << "[2] Ordenamiento" << endl;
         cout << "[3] Reproducción Aleatoria" << endl;
         cout << "[4] Impresión" << endl;
-        cout << "[5] Salir \n>> ";  
+        cout << "[5] Salir \n>> ";  // Opción para salir
         cin >> numero_opcion;
         cout << "\n";
+        // Ejecuta la acción según la opción seleccionada
         if (numero_opcion == 1) {
-            menu_busqueda(playlistSeleccionada, numero_opcion);
+            menu_busqueda(numero_opcion);
         }
         else if (numero_opcion == 2) {
-            menu_ordenamiento(playlistSeleccionada, numero_opcion);
+            menu_ordenamiento(numero_opcion);
         }
         else if (numero_opcion == 3) {
-            menu_reproduccion_aleatoria(playlistSeleccionada, numero_opcion);
+            menu_reproduccion_aleatoria(numero_opcion);
         }
         else if (numero_opcion == 4) {
-            playlistSeleccionada.imprimirCanciones();
+            playlist.imprimirCanciones();
         }
         else if (numero_opcion == 5) {
             cout << "Saliendo del menú..." << endl;
-            break; 
+            break;  // Sale del bucle y termina el programa
         }
         else {
             cout << "Opción no válida." << endl;
@@ -133,40 +51,79 @@ void Menu::interfaz_menu(PlayList& playlistSeleccionada) {
     }
 }
 
-void Menu::menu_busqueda(PlayList& playlistSeleccionada, int numero_opcion) {
+void Menu::menu_busqueda(int numero_opcion) {
     cout << "Seleccione un tipo de Búsqueda: " << endl;
     cout << "[1] Por Nombre de Canción" << endl;
     cout << "[2] Por Nombre de Artista" << endl;
     cout << "[3] Salir" << endl;
     cin >> numero_opcion;
+
     string nombreBusqueda;
     vector<Cancion> resultados;
 
     switch (numero_opcion) {
         case 1:
-            cout << "Ingrese el nombre de la canción: ";
+            cout << "Ingrese el prefijo del nombre de la canción: ";
             cin.ignore();
             getline(cin, nombreBusqueda);
-            resultados = playlistSeleccionada.buscarPorNombre(nombreBusqueda, false);
-            if (!resultados.empty()) {
-                for (auto& cancion : resultados) {
-                    cancion.imprimirDatos();
+            {
+                vector<string> canciones = playlist.cancionesTrie.findWordsWithPrefix(nombreBusqueda);
+                if (!canciones.empty()) {
+                    cout << "Canciones encontradas con el prefijo '" << nombreBusqueda << "':\n";
+                    for (size_t i = 0; i < canciones.size(); ++i) {
+                        cout << "[" << i + 1 << "] " << canciones[i] << endl;
+                    }
+                    cout << "Seleccione el número de la canción que desea buscar: ";
+                    int seleccion;
+                    cin >> seleccion;
+                    if (seleccion > 0 && seleccion <= canciones.size()) {
+                        nombreBusqueda = canciones[seleccion - 1];
+                        resultados = playlist.buscarPorNombre(nombreBusqueda, false);
+                        if (!resultados.empty()) {
+                            for (auto& cancion : resultados) {
+                                cancion.imprimirDatos();
+                            }
+                        } else {
+                            cout << "No se encontró ninguna canción con el nombre " << nombreBusqueda << ".\n";
+                        }
+                    } else {
+                        cout << "Selección no válida.\n";
+                    }
+                } else {
+                    cout << "No se encontró ninguna canción con el prefijo " << nombreBusqueda << ".\n";
                 }
-            } else {
-                cout << "No se encontró ninguna canción con el nombre " << nombreBusqueda << ".\n";
             }
             break;
         case 2:
-            cout << "Ingrese el nombre del artista: ";
+            cout << "Ingrese el prefijo del nombre del artista: ";
             cin.ignore();
             getline(cin, nombreBusqueda);
-            resultados = playlistSeleccionada.buscarPorNombre(nombreBusqueda, true);
-            if (!resultados.empty()) {
-                for (auto& cancion : resultados) {
-                    cancion.imprimirDatos();
+            {
+                vector<string> artistas = playlist.artistasTrie.findWordsWithPrefix(nombreBusqueda);
+                if (!artistas.empty()) {
+                    cout << "Artistas encontrados con el prefijo '" << nombreBusqueda << "':\n";
+                    for (size_t i = 0; i < artistas.size(); ++i) {
+                        cout << "[" << i + 1 << "] " << artistas[i] << endl;
+                    }
+                    cout << "Seleccione el número del artista que desea buscar: ";
+                    int seleccion;
+                    cin >> seleccion;
+                    if (seleccion > 0 && seleccion <= artistas.size()) {
+                        nombreBusqueda = artistas[seleccion - 1];
+                        resultados = playlist.buscarPorNombre(nombreBusqueda, true);
+                        if (!resultados.empty()) {
+                            for (auto& cancion : resultados) {
+                                cancion.imprimirDatos();
+                            }
+                        } else {
+                            cout << "No se encontró ningún artista con el nombre " << nombreBusqueda << ".\n";
+                        }
+                    } else {
+                        cout << "Selección no válida.\n";
+                    }
+                } else {
+                    cout << "No se encontró ningún artista con el prefijo " << nombreBusqueda << ".\n";
                 }
-            } else {
-                cout << "No se encontró ningún artista con el nombre " << nombreBusqueda << ".\n";
             }
             break;
         case 3:
@@ -177,7 +134,7 @@ void Menu::menu_busqueda(PlayList& playlistSeleccionada, int numero_opcion) {
     }
 }
 
-void Menu::menu_ordenamiento(PlayList& playlistSeleccionada, int numero_opcion) {
+void Menu::menu_ordenamiento(int numero_opcion) {
     cout << "Seleccione un tipo de Ordenamiento: " << endl;
     cout << "[1] Por Popularidad" << endl;
     cout << "[2] Por Año" << endl;
@@ -191,25 +148,25 @@ void Menu::menu_ordenamiento(PlayList& playlistSeleccionada, int numero_opcion) 
 
     switch (numero_opcion) {
         case 1:
-            playlistSeleccionada.ordenarPorAtributo("popularidad");
+            playlist.ordenarPorAtributo("popularidad");
             break;
         case 2:
-            playlistSeleccionada.ordenarPorAtributo("anio");
+            playlist.ordenarPorAtributo("anio");
             break;
         case 3:
-            playlistSeleccionada.ordenarPorAtributo("artista");
+            playlist.ordenarPorAtributo("artista");
             break;
         case 4:
-            playlistSeleccionada.ordenarPorAtributo("cancion");
+            playlist.ordenarPorAtributo("cancion");
             break;
         case 5:
-            playlistSeleccionada.ordenarPorAtributo("genero");
+            playlist.ordenarPorAtributo("genero");
             break;
         case 6:
-            playlistSeleccionada.ordenarPorAtributo("duracion");
+            playlist.ordenarPorAtributo("duracion");
             break;
         case 7:
-            playlistSeleccionada.ordenarPorAtributo("tempo");
+            playlist.ordenarPorAtributo("tempo");
             break;
         case 8:
             break;
@@ -219,18 +176,18 @@ void Menu::menu_ordenamiento(PlayList& playlistSeleccionada, int numero_opcion) 
     }
 }
 
-void Menu::menu_reproduccion_aleatoria(PlayList& playlistSeleccionada, int numero_opcion){
+void Menu::menu_reproduccion_aleatoria(int numero_opcion){
     // =============================== REPRODUCCIÓN ALEATORIA ===============================
     cout << "\nReproduciendo canción aleatoria..." << endl;
-    playlistSeleccionada.reproduccionAleatoria();
+    playlist.reproduccionAleatoria();
 } 
 
-void Menu::menu_actualizar_cancion(PlayList& playlistSeleccionada, int numero_opcion) {
+void Menu::menu_actualizar_cancion(int numero_opcion) {
     int idActualizacion;
     cout << "Ingrese el ID de la canción a actualizar: ";
     cin >> idActualizacion;
 
-    BTreeNode* nodo = playlistSeleccionada.btree->search(to_string(idActualizacion), false);
+    BTreeNode* nodo = playlist.btree->search(to_string(idActualizacion), false);
     Cancion* cancion = nullptr;
 
     if (nodo) {
@@ -366,4 +323,3 @@ void Menu::menu_actualizar_cancion(PlayList& playlistSeleccionada, int numero_op
     cout << "Canción actualizada:\n";
     cancion->imprimirDatos();
 }
-

@@ -15,21 +15,39 @@ void Trie::deleteTrie(TrieNode* node) {
     delete node;  
 }
 
-
-bool Trie::findWordsWithPrefix(const string& prefix) {
-   TrieNode* node = root;
-
-    // Recorrer cada caracter del prefijo
-    for (char c : prefix) {
-        // Si no existe el carácter en el nodo actual, el prefijo no es válido
+void Trie::insert(const string& word) {
+    TrieNode* node = root;
+    for (char c : word) {
         if (node->children.find(c) == node->children.end()) {
-            return false;
+            node->children[c] = new TrieNode();
         }
-        // Avanzar al siguiente nodo
+        node = node->children[c];
+    }
+    node->isleaf = true;
+}
+
+vector<string> Trie::findWordsWithPrefix(const string& prefix) {
+    TrieNode* node = root;
+    vector<string> words;
+
+    for (char c : prefix) {
+        if (node->children.find(c) == node->children.end()) {
+            return words;  // Prefijo no encontrado
+        }
         node = node->children[c];
     }
 
-    // Si hemos recorrido todo el prefijo sin problemas, significa que existe
-    return true;
+    findAllWords(node, prefix, words);
+    return words;
+}
+
+void Trie::findAllWords(TrieNode* node, string currentPrefix, vector<string>& words) {
+    if (node->isleaf) {
+        words.push_back(currentPrefix);
+    }
+
+    for (auto& pair : node->children) {
+        findAllWords(pair.second, currentPrefix + pair.first, words);
+    }
 }
 

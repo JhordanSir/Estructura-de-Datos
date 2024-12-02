@@ -20,12 +20,13 @@ public:
     Trie();
     ~Trie();                    
     bool startsWith(const string& prefix); 
+    void insert(const string& word);
+    void deleteTrie(TrieNode* node);
+    vector<string> findWordsWithPrefix(const string& prefix);
 
 private:
     TrieNode* root;
-    void deleteTrie(TrieNode* node);
-    bool findWordsWithPrefix(const string& prefix);
-
+    void findAllWords(TrieNode* node, string currentPrefix, vector<string>& words);
 };
 
 #endif
