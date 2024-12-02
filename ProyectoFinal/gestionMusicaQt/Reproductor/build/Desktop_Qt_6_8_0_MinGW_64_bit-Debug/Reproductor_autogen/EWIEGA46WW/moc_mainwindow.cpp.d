@@ -3,6 +3,7 @@ D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Q
   D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/btree.h \
   D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/cancion.h \
   D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.h \
+  D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.h \
   D:/Qt/6.8.0/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   D:/Qt/6.8.0/mingw_64/include/QtCore/q20memory.h \

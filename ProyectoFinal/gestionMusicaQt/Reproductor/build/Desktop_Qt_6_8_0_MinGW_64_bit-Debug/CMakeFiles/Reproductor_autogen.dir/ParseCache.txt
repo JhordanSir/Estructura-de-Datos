@@ -7,6 +7,7 @@ D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/mainwindow.h
  mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/btree.h
  mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/cancion.h
  mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.h
+ mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.h
  mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/Reproductor_autogen/moc_predefs.h
  mdp:D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/mainwindow.h
  mdp:D:/Qt/6.8.0/mingw_64/include/QtCore/q20functional.h
@@ -473,3 +474,5 @@ D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.cpp
 D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/main.cpp
 D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/mainwindow.cpp
  uic:ui_mainwindow.h
+D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.h
+D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.cpp

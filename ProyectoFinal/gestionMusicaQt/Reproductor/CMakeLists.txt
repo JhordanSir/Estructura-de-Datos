@@ -24,6 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ../../gestionMusicaConsola/btree.cpp ../../gestionMusicaConsola/btree.h ../../gestionMusicaConsola/cancion.cpp ../../gestionMusicaConsola/cancion.h ../../gestionMusicaConsola/menu.cpp ../../gestionMusicaConsola/menu.h ../../gestionMusicaConsola/playlist.cpp ../../gestionMusicaConsola/playlist.h
+        ../../gestionMusicaConsola/Pruebas.csv ../../gestionMusicaConsola/trie.cpp ../../gestionMusicaConsola/trie.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Reproductor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

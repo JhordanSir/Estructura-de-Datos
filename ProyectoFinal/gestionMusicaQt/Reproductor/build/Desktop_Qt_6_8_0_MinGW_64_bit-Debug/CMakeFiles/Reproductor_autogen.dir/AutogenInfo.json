@@ -290,6 +290,12 @@
 			null
 		],
 		[
+			"D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.h",
+			"MU",
+			"QMQCQJ7V47/moc_trie.cpp",
+			null
+		],
+		[
 			"D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaQt/Reproductor/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -384,6 +390,11 @@
 		],
 		[
 			"D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/playlist.cpp",
+			"MU",
+			null
+		],
+		[
+			"D:/Estructura-de-Datos/ProyectoFinal/gestionMusicaConsola/trie.cpp",
 			"MU",
 			null
 		],
