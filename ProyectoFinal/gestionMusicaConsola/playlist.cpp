@@ -96,7 +96,7 @@ void PlayList::imprimirCanciones() {
 void PlayList::ordenarPorAtributo(const std::string& atributo) {
     auto comparar = [&atributo](const Cancion& a, const Cancion& b) {
         if (atributo == "popularidad") {
-            return a.popularity < b.popularity;
+            return a.popularity > b.popularity;
         } else if (atributo == "anio") {
             return a.year < b.year;
         } else if (atributo == "artista") {
@@ -106,7 +106,7 @@ void PlayList::ordenarPorAtributo(const std::string& atributo) {
         } else if (atributo == "genero") {
             return a.genre < b.genre;
         } else if (atributo == "duracion") {
-            return a.duration_ms < b.duration_ms;
+            return a.duration_ms > b.duration_ms;
         } else if (atributo == "tempo") {
             return a.tempo < b.tempo;
         }

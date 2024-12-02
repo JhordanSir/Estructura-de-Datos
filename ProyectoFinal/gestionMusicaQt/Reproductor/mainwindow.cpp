@@ -3,8 +3,8 @@
 #include <QMessageBox>
 #include <QString>
 #include <vector>
+#include <QInputDialog>
 
-// Incluye el espacio de nombres std para evitar prefijos como std::vector
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Crear los widgets
     lineEditBuscar = new QLineEdit(this);
-    lineEditID = new QLineEdit(this); // Inicializa lineEditID
+    lineEditID = new QLineEdit(this);
     lineEditNombre = new QLineEdit(this);
     lineEditArtista = new QLineEdit(this);
     lineEditAlbum = new QLineEdit(this);
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     btnOrdenar = new QPushButton("Ordenar", this);
     btnReproducirAleatorio = new QPushButton("Reproducir Aleatorio", this);
     btnActualizar = new QPushButton("Actualizar", this);
-    btnCargarArchivo = new QPushButton("Cargar Archivo CSV", this); // Nuevo botón para cargar el archivo CSV
+    btnCargarArchivo = new QPushButton("Cargar Archivo CSV", this);
     radioButtonArtista = new QRadioButton("Buscar por artista", this);
     comboBoxAtributo = new QComboBox(this);
 
@@ -136,15 +136,35 @@ void MainWindow::on_btnBuscar_clicked()
     QString nombreBusqueda = lineEditBuscar->text();
     bool searchByArtist = radioButtonArtista->isChecked();
 
-    // Llama al método buscarPorNombre y verifica que exista
-    vector<Cancion> resultados = playlist.buscarPorNombre(nombreBusqueda.toStdString(), searchByArtist);
+    vector<string> resultadosPrefijo;
+    if (searchByArtist) {
+        resultadosPrefijo = playlist.artistasTrie.findWordsWithPrefix(nombreBusqueda.toStdString());
+    } else {
+        resultadosPrefijo = playlist.cancionesTrie.findWordsWithPrefix(nombreBusqueda.toStdString());
+    }
 
     textEditResultados->clear();
-    if (!resultados.empty()) {
-        for (const auto& cancion : resultados) {
-            textEditResultados->append(
-                QString::fromStdString(cancion.track_name + " - " + cancion.artist_name)
-                );
+    if (!resultadosPrefijo.empty()) {
+        for (size_t i = 0; i < resultadosPrefijo.size(); ++i) {
+            textEditResultados->append(QString::number(i + 1) + ". " + QString::fromStdString(resultadosPrefijo[i]));
+        }
+
+        bool ok;
+        int seleccion = QInputDialog::getInt(this, "Seleccionar", "Ingrese el número de la opción:", 1, 1, resultadosPrefijo.size(), 1, &ok);
+        if (ok) {
+            string seleccionada = resultadosPrefijo[seleccion - 1];
+            vector<Cancion> resultados = playlist.buscarPorNombre(seleccionada, searchByArtist);
+
+            textEditResultados->clear();
+            if (!resultados.empty()) {
+                for (const auto& cancion : resultados) {
+                    textEditResultados->append(
+                        QString::fromStdString(cancion.track_name + " - " + cancion.artist_name)
+                        );
+                }
+            } else {
+                textEditResultados->append("No se encontraron resultados.");
+            }
         }
     } else {
         textEditResultados->append("No se encontraron resultados.");
@@ -159,7 +179,9 @@ void MainWindow::on_btnOrdenar_clicked()
     playlist.ordenarPorAtributo(atributo.toStdString());
 
     textEditResultados->clear();
+    int count = 0;
     for (const auto& cancion : playlist.todasLasCanciones) {
+        if ((atributo == "popularidad" || atributo == "duracion") && count >= 10) break; // Mostrar solo los 10 primeros resultados para popularidad y duración
         if (atributo == "popularidad") {
             textEditResultados->append(
                 QString::fromStdString(to_string(cancion.popularity) + " - " + cancion.track_name)
@@ -189,6 +211,7 @@ void MainWindow::on_btnOrdenar_clicked()
                 QString::fromStdString(to_string(cancion.tempo) + " - " + cancion.track_name)
                 );
         }
+        count++;
     }
 }
 
