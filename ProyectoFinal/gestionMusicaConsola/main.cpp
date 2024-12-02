@@ -4,6 +4,6 @@ using namespace std;
 
 int main() {
     Menu menu;
-    menu.interfaz_menu();
+    menu.matriz_menu();
     return 0;
 }

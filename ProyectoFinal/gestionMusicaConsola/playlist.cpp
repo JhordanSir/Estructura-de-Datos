@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <execution> 
 
-PlayList::PlayList(int t, const::string& name) {
+PlayList::PlayList(int t) {
     btree = new BTree(t);
 }
 

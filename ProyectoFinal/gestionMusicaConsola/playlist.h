@@ -12,7 +12,7 @@ class PlayList {
 public:
     BTree* btree;
     std::vector<Cancion> todasLasCanciones; // Vector para almacenar todas las canciones
-    PlayList(int t, const::string& name);
+    PlayList(int t);
     ~PlayList();
 
     void agregarCancion(Cancion& cancion);
