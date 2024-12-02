@@ -10,48 +10,41 @@
 
 
 ## Descripción del Proyecto
-El objetivo de este proyecto es desarrollar una estructura de datos eficiente para almacenar y buscar canciones de un archivo de datos en formato CSV, similar a un dataset de Spotify. Utilizamos un Árbol B como estructura de almacenamiento para manejar la carga de datos y facilitar las búsquedas eficientes de canciones.
+El objetivo de este proyecto es implementar una estructura de datos eficiente para almacenar y buscar canciones en un sistema basado en un archivo CSV. Utilizamos la estructura BTree para optimizar las operaciones de inserción y búsqueda, y aplicamos técnicas de programación paralela para mejorar el rendimiento en tareas de búsqueda masiva y ordenamiento.
 
 ## Funcionalidades Implementadas
 
-1. **Estructura de Datos Árbol B:** 
-   Se creó una estructura de datos basada en Árbol B, implementando nodos con un número máximo de claves (3 en este caso) para el manejo de las canciones.
+1. **Estructura de Datos BTree:** 
+   Se implementó una estructura BTree, diseñada para manejar grandes volúmenes de datos de manera eficiente. Los nodos del árbol permiten múltiples claves y operaciones rápidas de inserción, búsqueda y recorrido.
    
-2. **Lectura de CSV con Campos Complejos:** 
-   Se desarrolló un lector de CSV para procesar nombres con comas dentro de comillas y otros formatos numéricos complejos.
+2. **Lectura y Procesamiento de Archivos CSV:** 
+   Se desarrolló un lector de CSV capaz de procesar correctamente datos complejos, como nombres con comas entre comillas y formatos numéricos en notación científica.
 
 3. **Inserción y Búsqueda de Canciones:** 
-   Implementación de funciones para insertar canciones en el Árbol B y buscar canciones mediante su ID.
+   Implementación de métodos para insertar canciones en el árbol y buscar canciones por identificador o atributos específicos.
 
-4. **Impresión del Árbol B:** 
-   Se creó una función para visualizar la estructura actual del Árbol B en consola.
+4. **Visualización de la Estructura del BTree:** 
+   Una funcionalidad para imprimir la estructura del árbol en la consola, permitiendo visualizar su distribución y jerarquía.
+
+5. **Optimización con Programación Paralela:** 
+   Uso de hilos para acelerar las operaciones intensivas, como búsquedas masivas en el árbol y el ordenamiento de canciones.
 
 ## Problemas Encontrados
 
-- **Elección de la Estructura de Datos:** 
-  Aunque el Árbol B permite inserciones y búsquedas eficientes, surgieron desafíos en la manipulación de nodos y la división de hijos. Por ello, se está considerando la posibilidad de cambiar a una tabla hash para mejorar el rendimiento en búsquedas.
-
-- **Lectura Compleja de CSV:** 
-  La estructura del CSV incluye campos con comas dentro de comillas y valores flotantes en notación científica (por ejemplo, `1+e10`). Esto requirió el desarrollo de una función personalizada para leer cada campo y evitar errores de parsing.
+- **Manipulación de Nodos en el BTree:** 
+  Se presentaron desafíos en la división de nodos y la redistribución de claves, lo cual requirió ajustes para garantizar la consistencia del árbol.
+- **Sincronización en Programación Paralela:** 
+  Se identificaron conflictos de acceso a recursos compartidos, que fueron solucionados mediante la implementación de mecanismos de sincronización.
 
 ## Posibles Mejoras
 
-1. **Cambio a Tabla Hash:** 
-   La tabla hash podría ofrecer un rendimiento más rápido para las búsquedas directas de ID de canciones, en comparación con el Árbol B.
+1. **Ampliación de la Interfaz de Usuario:** 
+   Incluir opciones para búsquedas avanzadas y visualización gráfica del árbol.
 
-2. **Optimización de Lectura CSV:** 
-   Mejorar el manejo de casos excepcionales en el lector de CSV, como caracteres especiales y formatos numéricos avanzados, para garantizar una carga de datos más robusta.
-
-3. **Interfaz de Usuario:** 
-   Crear una interfaz gráfica o de consola más amigable para interactuar con la estructura de datos, incluyendo opciones de búsqueda y visualización más detalladas.
+2. **Implementación de Índices Secundarios:** 
+   Añadir índices secundarios para optimizar las búsquedas por atributos como nombre o artista.
 
 ## Conclusión
 
-Hasta el momento, el proyecto ha avanzado en la implementación básica de un Árbol B para el manejo de canciones, permitiendo la inserción y búsqueda de datos desde un archivo CSV. Sin embargo, se identificaron limitaciones en la estructura de datos y en el procesamiento del archivo CSV, las cuales están siendo revisadas para mejorar la eficiencia y funcionalidad del sistema. La consideración de una tabla hash y la optimización de la lectura del CSV serán los siguientes pasos clave para completar el proyecto.
+El proyecto avanza con la implementación exitosa de un BTree como estructura de datos principal y el uso de programación paralela para acelerar operaciones intensivas. Aunque se han superado varios desafíos técnicos, todavía hay margen de mejora en el procesamiento de archivos y la interacción del usuario. Los siguientes pasos se enfocarán en optimizar la eficiencia del sistema y añadir características que enriquezcan la experiencia del usuario.
 
-## Próximos Pasos
-
-1. Evaluar el cambio de estructura de datos a una tabla hash para búsquedas más rápidas.
-2. Optimizar el procesamiento de archivos CSV para manejar casos especiales de manera más robusta.
-3. Desarrollar una interfaz de usuario para facilitar la interacción y visualización de las canciones almacenadas.
-4. Realizar pruebas de rendimiento y realizar ajustes según los resultados obtenidos para asegurar que el sistema funcione eficientemente con grandes volúmenes de datos.
