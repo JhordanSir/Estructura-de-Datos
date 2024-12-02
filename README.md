@@ -2,8 +2,8 @@
 
 ## Integrantes
 
-- Miguel Angel Flores Amarillas
-- Jhordan Steven Octavio Huamani Huamani (yo no hago nada y me aprueban jajajajajaja)
+- Miguel Angel Flores León 
+- Jhordan Steven Octavio Huamani Huamaní 
 - Jorge Luis Ortiz Castañeda
 
 # 1. Informe de Avance de Proyecto Final (12/11)
